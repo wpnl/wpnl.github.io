@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 锟斤拷哒</title>
+  <title>for...in和for...of循环的区别 | 锟斤拷哒</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="안녕하십니까">
-<meta name="keywords" content="咸鱼,美食,做饭,周杰伦粉丝,卖萌,前端,心理学,js,vue,react,javascript,html5,开发者,程序猿,编程,代码,html,css,css3,用户体验">
-<meta property="og:type" content="website">
-<meta property="og:title" content="锟斤拷哒">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="简单了解下…..">
+<meta name="keywords" content="javaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="for...in和for...of循环的区别">
+<meta property="og:url" content="http://yoursite.com/2017/07/for-in-and-for-of/index.html">
 <meta property="og:site_name" content="锟斤拷哒">
-<meta property="og:description" content="안녕하십니까">
+<meta property="og:description" content="简单了解下…..">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-03T12:24:08.037Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="锟斤拷哒">
-<meta name="twitter:description" content="안녕하십니까">
+<meta name="twitter:title" content="for...in和for...of循环的区别">
+<meta name="twitter:description" content="简单了解下…..">
   
     <link rel="alternative" href="/atom.xml" title="锟斤拷哒" type="application/atom+xml">
   
@@ -144,74 +145,54 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-for-in-and-for-of" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/HTML5-storage/" class="archive-article-date">
-  	<time datetime="2017-07-20T11:27:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-20</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/HTML5-storage/">HTMl5的sessionStorage和localStorage</a>
+    <h1 class="article-title" itemprop="name">
+      for...in和for...of循环的区别
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">html5</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/for-in-and-for-of/" class="archive-article-date">
+        
+        <a href="/2017/07/for-in-and-for-of/" class="archive-article-date">
   	<time datetime="2017-07-10T06:26:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-10</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/for-in-and-for-of/">for...in和for...of循环的区别</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>简单了解下…..</p>
+<a id="more"></a>
 
-        <div class="article-info info-on-right">
-          
+<h3 id="for-in测试"><a href="#for-in测试" class="headerlink" title="for in测试"></a><code>for in</code>测试</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>]</span><br><span class="line"><span class="keyword">let</span> s = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>])</span><br><span class="line"><span class="keyword">let</span> m = <span class="keyword">new</span> <span class="built_in">Map</span>([[<span class="string">'a'</span>,<span class="number">1</span>],[<span class="string">'b'</span>,<span class="number">2</span>],[<span class="string">'c'</span>,<span class="number">3</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment">//  遍历数组</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> x <span class="keyword">in</span> a)&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(x)  <span class="comment">//  得到的是下标 0 1 2</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> x <span class="keyword">in</span> s)&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(x)  <span class="comment">//  不起作用，无法遍历Set</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> x <span class="keyword">in</span> m)&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(x)  <span class="comment">//  不起作用，无法遍历Map</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="for-of测试"><a href="#for-of测试" class="headerlink" title="for of测试"></a><code>for of</code>测试</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>]</span><br><span class="line"><span class="keyword">let</span> s = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'c'</span>])</span><br><span class="line"><span class="keyword">let</span> m = <span class="keyword">new</span> <span class="built_in">Map</span>([[<span class="string">'a'</span>,<span class="number">1</span>],[<span class="string">'b'</span>,<span class="number">2</span>],[<span class="string">'c'</span>,<span class="number">3</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment">//  遍历数组</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> x <span class="keyword">of</span> a)&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(x)  <span class="comment">//  得到的是值 a b c</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> x <span class="keyword">of</span> s)&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(x)  <span class="comment">//  得到的是值 a b c</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> [key,value] <span class="keyword">of</span> m)&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key)  <span class="comment">//  得到的是key值 a b c</span></span><br><span class="line">  <span class="built_in">console</span>.log(value)  <span class="comment">//  得到的是value值 1 2 3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="for-in的问题"><a href="#for-in的问题" class="headerlink" title="for in的问题"></a><code>for in</code>的问题</h3><p><strong><code>for in</code>遍历的实际上是对象的属性名称。一个<code>Array</code>数组也是一个对象，数组中的每个元素的索引被视为属性名称，所以我们可以看到使用<code>for...in</code>循环<code>Array</code>数组时，拿到的其实是每个元素的索引。</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>]</span><br><span class="line">a.name = <span class="string">'wpnl'</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> x <span class="keyword">in</span> a)&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(x)  <span class="comment">//  0 1 2 name</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，当我们为a多手动添加一个属性<code>name</code>的时候，<code>for...in</code>循环会把name属性也包括在内，而<code>Array</code>的<code>length</code>属性却不包括在内。</p>
+<p><code>for...of</code>循环则不存在上述的问题，它只循环集合本身的元素。这就是为什么引入<code>for...of</code>循环。所以<code>for...of</code>循环功能比较好，推荐使用</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><code>for-of</code>循环的几个特征</p>
+<ul>
+<li>这是最简洁、最直接的遍历数组元素的语法。</li>
+<li>这个方法避开了<code>for-in</code>循环的所有缺陷。</li>
+<li>与<code>forEach</code>不同的是，它可以正确响应<code>break、continue 和 return</code>语句。</li>
+<li>其不仅可以遍历数组，还可以遍历类数组对象和其他可迭代对象。</li>
+</ul>
+<hr>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -223,171 +204,64 @@
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/meta/" class="archive-article-date">
-  	<time datetime="2017-06-29T08:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-29</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2017/07/HTML5-storage/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          HTMl5的sessionStorage和localStorage
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/06/meta/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">移动meta通用设置</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/meta/">移动meta通用设置</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">meta</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/border1px/" class="archive-article-date">
-  	<time datetime="2017-06-26T10:22:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/border1px/">移动端最小物理像素的实现(border:1px)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">css</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/Retina/" class="archive-article-date">
-  	<time datetime="2017-06-24T05:32:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/Retina/">移动端高清显示屏Retina的原理</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">css</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/Html5-Canvas/" class="archive-article-date">
-  	<time datetime="2017-06-17T14:40:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/Html5-Canvas/">Html5标签之canvas</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">html5</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -410,8 +284,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

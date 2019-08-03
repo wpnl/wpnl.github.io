@@ -6,19 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2012 | 锟斤拷哒</title>
+  <title>移动端高清显示屏Retina的原理 | 锟斤拷哒</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="안녕하십니까">
-<meta name="keywords" content="咸鱼,美食,做饭,周杰伦粉丝,卖萌,前端,心理学,js,vue,react,javascript,html5,开发者,程序猿,编程,代码,html,css,css3,用户体验">
-<meta property="og:type" content="website">
-<meta property="og:title" content="锟斤拷哒">
-<meta property="og:url" content="http://yoursite.com/archives/2012/index.html">
+  <meta name="description" content="最近在学习移动端开发的时候，发现了很多与pc端不同的问题，其中最普遍的就是关于ppi、设备像素比之类的概念，下面是关于retina高清显示屏原理，了解这个，就能明白为什么移动端的像素与pc端开发的项目不同。">
+<meta name="keywords" content="css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="移动端高清显示屏Retina的原理">
+<meta property="og:url" content="http://yoursite.com/2017/06/Retina/index.html">
 <meta property="og:site_name" content="锟斤拷哒">
-<meta property="og:description" content="안녕하십니까">
+<meta property="og:description" content="最近在学习移动端开发的时候，发现了很多与pc端不同的问题，其中最普遍的就是关于ppi、设备像素比之类的概念，下面是关于retina高清显示屏原理，了解这个，就能明白为什么移动端的像素与pc端开发的项目不同。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/assets/images/retina.jpg">
+<meta property="og:image" content="http://yoursite.com/assets/images/jobs.jpg">
+<meta property="og:updated_time" content="2019-08-03T12:25:22.346Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="锟斤拷哒">
-<meta name="twitter:description" content="안녕하십니까">
+<meta name="twitter:title" content="移动端高清显示屏Retina的原理">
+<meta name="twitter:description" content="最近在学习移动端开发的时候，发现了很多与pc端不同的问题，其中最普遍的就是关于ppi、设备像素比之类的概念，下面是关于retina高清显示屏原理，了解这个，就能明白为什么移动端的像素与pc端开发的项目不同。">
+<meta name="twitter:image" content="http://yoursite.com/assets/images/retina.jpg">
   
     <link rel="alternative" href="/atom.xml" title="锟斤拷哒" type="application/atom+xml">
   
@@ -144,64 +148,132 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Retina" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2012" class="archive-year">2012</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2012/12/hello-world/" class="archive-article-date">
-  	<time datetime="2012-12-19T06:48:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2012-12-19</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2012/12/hello-world/">Hello World</a>
+    <h1 class="article-title" itemprop="name">
+      移动端高清显示屏Retina的原理
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/06/Retina/" class="archive-article-date">
+  	<time datetime="2017-06-24T05:32:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在学习移动端开发的时候，发现了很多与pc端不同的问题，其中最普遍的就是关于ppi、设备像素比之类的概念，下面是关于retina高清显示屏原理，了解这个，就能明白为什么移动端的像素与pc端开发的项目不同。</p>
+<a id="more"></a>
+
+<h3 id="高清显示屏特征"><a href="#高清显示屏特征" class="headerlink" title="高清显示屏特征"></a>高清显示屏特征</h3><ol>
+<li>一种具备超高像素密度的显示屏</li>
+<li>同样大小的屏幕上显示的像素点由1个变为多个</li>
+</ol>
+<p><img src="/assets/images/retina.jpg" alt="高清显示屏"></p>
+<hr>
+<h3 id="高清显示屏下图片变模糊"><a href="#高清显示屏下图片变模糊" class="headerlink" title="高清显示屏下图片变模糊"></a>高清显示屏下图片变模糊</h3><p>了解高清显示屏的原理，如果我们把两张相同的照片放在一台普通显示屏，一台高清显示屏，在同样大小的屏幕上，高清显示屏中的位图会被放大，图片会变得模糊。</p>
+<p>比如像下面右边的图片变模糊了，原因是高清显示屏显示的像素点相比普通显示屏的像素点由1个变为4个，但位置大小还是没有改变，换个意思就是图片被放大了一倍。</p>
+<p><img src="/assets/images/jobs.jpg" alt="高清显示屏与普通显示屏"></p>
+<hr>
+<h3 id="关于-像素"><a href="#关于-像素" class="headerlink" title="关于[像素]"></a>关于[像素]</h3><h4 id="设备像素-device-pixel"><a href="#设备像素-device-pixel" class="headerlink" title="设备像素(device pixel)"></a>设备像素(device pixel)</h4><p>设备像素设是物理概念，指的是设备中使用的物理像素。<br>比如iPhone 5的分辨率640 x 1136px。</p>
+<h4 id="CSS像素-css-pixel"><a href="#CSS像素-css-pixel" class="headerlink" title="CSS像素(css pixel)"></a>CSS像素(css pixel)</h4><p>CSS像素是Web编程的概念，指的是CSS样式代码中使用的逻辑像素。<br>在CSS规范中，长度单位可以分为两类，绝对(absolute)单位以及相对(relative)单位。px是一个相对单位，相对的是设备像素(device pixel)。</p>
+<p><strong>比如iPhone 5使用的是Retina视网膜屏幕，使用<code>2px x 2px的设备像素(device pixel) 代表1px x 1px的CSS像素(css pixel)</code>，所以设备像素数为640 x 1136px，而CSS逻辑像素数为320 x 568px。</strong></p>
+<hr>
+<h3 id="设备像素比-devicePixelRatio-设备像素与CSS像素之间的换算"><a href="#设备像素比-devicePixelRatio-设备像素与CSS像素之间的换算" class="headerlink" title="设备像素比:devicePixelRatio(设备像素与CSS像素之间的换算)"></a>设备像素比:devicePixelRatio(设备像素与CSS像素之间的换算)</h3><p>首先我们要理解2个概念</p>
+<h4 id="物理像素-physical-pixel"><a href="#物理像素-physical-pixel" class="headerlink" title="物理像素(physical pixel)"></a>物理像素(physical pixel)</h4><p>一个物理像素是显示器(手机屏幕)上最小的物理显示单元，在操作系统的调度下，每一个设备像素都有自己的颜色值和亮度值。</p>
+<h4 id="设备独立像素-density-independent-pixel"><a href="#设备独立像素-density-independent-pixel" class="headerlink" title="设备独立像素(density-independent pixel)"></a>设备独立像素(density-independent pixel)</h4><p>简单粗俗的来说就是css像素</p>
+<h4 id="设备像素比-device-pixel-ratio"><a href="#设备像素比-device-pixel-ratio" class="headerlink" title="设备像素比(device pixel ratio)"></a>设备像素比(device pixel ratio)</h4><p><strong>设备像素比 = 物理像素 / 设备独立像素</strong></p>
+<p>在javascript中，可以通过<code>window.devicePixelRatio</code>获取到当前设备的dpr。</p>
+<p>通过计算 devicePixelRatio 的值，是可以区分普通显示屏和高清显示器，当devicePixelRatio值等于1时（也就是最小值），那么它普通显示屏，当devicePixelRatio值大于1(通常是2.0、3.0)，那么它就是高清显示屏。</p>
+<p><strong>了解这个原理，当dpr&gt;1时候，正常的图片像素点与<code>物理像素</code>点个数不是1:1的关系，所以图片像素点不够，所有只能就近取色，从而导致图片模糊</strong></p>
+<p>所以我们知道为什么现在移动端开发一般需要2-3套的图片尺寸大小，一套是用在dpr=1的，<br>一套是用在dpr=2的，一套是用在drp=3的。这样的图片显示才会正常。</p>
+<hr>
+<h3 id="关于Retina下，border：1px的问题"><a href="#关于Retina下，border：1px的问题" class="headerlink" title="关于Retina下，border：1px的问题"></a>关于Retina下，border：1px的问题</h3><p>其实设计师想要的1px，是希望在Retina下的0.5px。既最小的一个物理像素(这是retina下(dpr=2)下能显示的最小单位)。</p>
+<p>一般常用的解决方法：<br><a href="http://fweifeng.com/2017/06/26/border1px.html" target="_blank" rel="noopener">移动端最小物理像素的实现(border:1px)</a></p>
+<hr>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">设计</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">杂谈</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">css</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/06/border1px/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          移动端最小物理像素的实现(border:1px)
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2017/06/Html5-Canvas/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Html5标签之canvas</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -224,8 +296,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
@@ -294,11 +366,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">设计</a>
+                <a href="javascript:void(0)" class="js-tag color1">html5</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
+                <a href="javascript:void(0)" class="js-tag color4">css</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">meta</a>
               </li>
             
             <div class="clearfix"></div>
