@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="锟斤拷哒">
 <meta property="og:description" content="说说LocalStorage与SessionStorage的关系、以及Cookie与它们的区别。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-03T12:24:03.852Z">
+<meta property="og:updated_time" content="2019-08-05T01:53:11.413Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTMl5的sessionStorage和localStorage">
 <meta name="twitter:description" content="说说LocalStorage与SessionStorage的关系、以及Cookie与它们的区别。">
@@ -61,6 +61,8 @@
 			<ul>
 			
 				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/memo">备忘录</a></li>
 	        
 			</ul>
 		</nav>
@@ -114,6 +116,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -130,7 +134,9 @@
 				<ul style="width: 50%">
 				
 				
-					<li style="width: 100%"><a href="/">主页</a></li>
+					<li style="width: 50%"><a href="/">主页</a></li>
+		        
+					<li style="width: 50%"><a href="/memo">备忘录</a></li>
 		        
 				</ul>
 			</nav>
@@ -156,6 +162,26 @@
     </h1>
   
 
+        
+        <div style="margin-left:10px; font-size: 12px; color: #999; display: inline-block;">
+  <span class="post-time">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-keyboard-o"></i>
+      <span class="post-meta-item-text">  字数统计: </span>
+      <span class="post-count">975字</span>
+    </span>
+  </span>
+
+  <span class="post-time">
+    &nbsp; | &nbsp;
+    <span class="post-meta-item-icon">
+      <i class="fa fa-hourglass-half"></i>
+      <span class="post-meta-item-text">  阅读时长: </span>
+      <span class="post-count">3分</span>
+    </span>
+  </span>
+</div>
+        
         
         <a href="/2017/07/HTML5-storage/" class="archive-article-date">
   	<time datetime="2017-07-20T11:27:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-20</time>
@@ -184,28 +210,27 @@
 <li><strong>与服务器端通信</strong><br><code>Cookie</code>：每次都会携带在HTTP头中，如果使用cookie保存过多数据会带来性能问题。<br><code>localStorage 和 sessionStorage</code>：仅在客户端（即浏览器）中保存，不参与和服务器的通信。</li>
 </ol>
 <p><strong>总的来说</strong>：<br><strong><code>Web Storage</code>的概念和<code>cookie</code>相似，区别是它是为了更大容量存储设计的。<br><code>Cookie</code>的大小是受限的，并且每次你请求一个新的页面的时候<code>Cookie</code>都会被发送过去，这样无形中浪费了带宽。<br>另外<code>cookie</code>还需要指定作用域，不可以跨域调用。<br>但是<code>Cookie</code>也是不可以或缺的：<code>Cookie</code>的作用是与服务器进行交互，作为HTTP规范的一部分而存在 ，而<code>Web Storage</code>仅仅是为了在本地“存储”数据而生。</strong></p>
-<h3 id="localStorage-和-sessionStorage的方法"><a href="#localStorage-和-sessionStorage的方法" class="headerlink" title="localStorage 和 sessionStorage的方法"></a>localStorage 和 sessionStorage的方法</h3><h4 id="setItem存储value"><a href="#setItem存储value" class="headerlink" title="setItem存储value"></a><code>setItem</code>存储<code>value</code></h4><p>用途：将value存储到key字段<br>用法：.setItem( key, value)<br>代码示例：</p>
+<h3 id="localStorage-和-sessionStorage的方法"><a href="#localStorage-和-sessionStorage的方法" class="headerlink" title="localStorage 和 sessionStorage的方法"></a>localStorage 和 sessionStorage的方法</h3><h5 id="1-setItem存储value"><a href="#1-setItem存储value" class="headerlink" title="1. setItem存储value"></a>1. <strong>setItem存储value</strong></h5><p>用途：将value存储到key字段<br>用法：.setItem( key, value)<br>代码示例：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sessionStorage.setItem(<span class="string">"key"</span>, <span class="string">"value1"</span>)</span><br><span class="line">localStorage.setItem(<span class="string">"site"</span>, <span class="string">"value2"</span>);</span><br></pre></td></tr></table></figure>
 
-<h4 id="getItem获取value"><a href="#getItem获取value" class="headerlink" title="getItem获取value"></a><code>getItem</code>获取<code>value</code></h4><p>用途：获取指定key本地存储的值<br>用法：.getItem(key)<br>代码示例：</p>
+<h5 id="2-getItem获取value"><a href="#2-getItem获取value" class="headerlink" title="2. getItem获取value"></a>2. <strong>getItem获取value</strong></h5><p>用途：获取指定key本地存储的值<br>用法：.getItem(key)<br>代码示例：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> value = sessionStorage.getItem(<span class="string">"key"</span>)</span><br><span class="line"><span class="keyword">let</span> site = localStorage.getItem(<span class="string">"site"</span>)</span><br></pre></td></tr></table></figure>
 
-<h4 id="removeItem删除key"><a href="#removeItem删除key" class="headerlink" title="removeItem删除key"></a><code>removeItem</code>删除<code>key</code></h4><p>用途：删除指定key本地存储的值<br>用法：.removeItem(key)<br>代码示例：</p>
+<h5 id="3-removeItem删除key"><a href="#3-removeItem删除key" class="headerlink" title="3. removeItem删除key"></a>3. <strong>removeItem删除key</strong></h5><p>用途：删除指定key本地存储的值<br>用法：.removeItem(key)<br>代码示例：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sessionStorage.removeItem(<span class="string">"key"</span>)</span><br><span class="line">localStorage.removeItem(<span class="string">"site"</span>)</span><br></pre></td></tr></table></figure>
 
-<h4 id="clear清除所有的key-value"><a href="#clear清除所有的key-value" class="headerlink" title="clear清除所有的key/value"></a><code>clear</code>清除所有的<code>key/value</code></h4><p>用途：清除所有的key/value<br>用法：.clear()<br>代码示例：</p>
+<h5 id="4-clear清除所有的key-value"><a href="#4-clear清除所有的key-value" class="headerlink" title="4. clear清除所有的key/value"></a>4. <strong>clear清除所有的key/value</strong></h5><p>用途：清除所有的key/value<br>用法：.clear()<br>代码示例：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sessionStorage.clear()</span><br><span class="line">localStorage.clear()</span><br></pre></td></tr></table></figure>
 
-<h4 id="其他操作方法：-操作和"><a href="#其他操作方法：-操作和" class="headerlink" title="其他操作方法：.操作和[]"></a>其他操作方法：<code>.</code>操作和<code>[]</code></h4><p>web Storage不但可以用自身的<code>setItem,getItem</code>等方便存取，也可以像普通对象一样用点<code>(.)</code>操作符，及<code>[]</code>的方式进行数据存储，像如下的代码：</p>
+<h5 id="5-其他操作方法：-操作和"><a href="#5-其他操作方法：-操作和" class="headerlink" title="5. 其他操作方法：.操作和[]"></a>5. <strong>其他操作方法：<code>.</code>操作和<code>[]</code></strong></h5><p>web Storage不但可以用自身的<code>setItem,getItem</code>等方便存取，也可以像普通对象一样用点<code>(.)</code>操作符，及<code>[]</code>的方式进行数据存储，像如下的代码：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> storage = <span class="built_in">window</span>.localStorage</span><br><span class="line">storage.key1 = <span class="string">"value1"</span></span><br><span class="line">storage[<span class="string">"key2"</span>] = <span class="string">"value2"</span></span><br><span class="line"><span class="built_in">console</span>.log(storage.key1)  <span class="comment">//  value1</span></span><br><span class="line"><span class="built_in">console</span>.log(storage[<span class="string">"key2"</span>])  <span class="comment">//  value2</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="localStorage-和-sessionStorage的遍历"><a href="#localStorage-和-sessionStorage的遍历" class="headerlink" title="localStorage 和 sessionStorage的遍历"></a><code>localStorage 和 sessionStorage</code>的遍历</h4><p><code>sessionStorage 和 localStorage</code>提供的<code>key() 和 length</code>可以方便的实现存储的数据遍历<br>代码示例：</p>
+<h5 id="6-localStorage-和-sessionStorage的遍历"><a href="#6-localStorage-和-sessionStorage的遍历" class="headerlink" title="6. localStorage 和 sessionStorage的遍历"></a>6. <strong>localStorage 和 sessionStorage的遍历</strong></h5><p><code>sessionStorage 和 localStorage</code>提供的<code>key() 和 length</code>可以方便的实现存储的数据遍历<br>代码示例：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> storage = <span class="built_in">window</span>.localStorage</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>;i &lt; storage.length;i++)&#123;</span><br><span class="line">  <span class="keyword">let</span> key = storage.key(i)</span><br><span class="line">  <span class="keyword">let</span> value = storage.getItem(key)     </span><br><span class="line">  <span class="built_in">console</span>.log(key + <span class="string">"="</span> + value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="storage事件"><a href="#storage事件" class="headerlink" title="storage事件"></a><code>storage</code>事件</h4><p><code>storage</code>还提供了<code>storage</code>事件，当<code>键值</code>改变或者<code>clear</code>的时候，就可以触发<code>storage</code>事件，如下面的代码就添加了一个storage事件改变的监听：</p>
+<h5 id="7-storage事件"><a href="#7-storage事件" class="headerlink" title="7. storage事件"></a>7. <strong>storage事件</strong></h5><p><code>storage</code>还提供了<code>storage</code>事件，当<code>键值</code>改变或者<code>clear</code>的时候，就可以触发<code>storage</code>事件，如下面的代码就添加了一个storage事件改变的监听：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">window</span>.addEventListener)&#123;</span><br><span class="line">  <span class="built_in">window</span>.addEventListener(<span class="string">"storage"</span>,handle_storage,<span class="literal">false</span>)</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">window</span>.attachEvent)&#123;</span><br><span class="line">  <span class="built_in">window</span>.attachEvent(<span class="string">"onstorage"</span>,handle_storage)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handle_storage</span>(<span class="params">ev</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> ev = ev || <span class="built_in">window</span>.ev </span><br><span class="line">  <span class="comment">//  其中storage事件有以下属性</span></span><br><span class="line">  ev.key  <span class="comment">//  存储store的key名。</span></span><br><span class="line">  ev.oldValue  <span class="comment">//  更新前的值。如果该键为新增加，则这个属性为null。 </span></span><br><span class="line">  ev.newValue  <span class="comment">//  更新后的值，如果该键被删除，则这个属性为null。</span></span><br><span class="line">  ev.url  <span class="comment">//  原始触发storage事件的那个网页的网址。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<hr>
 
       
 
@@ -238,6 +263,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2019/06/web-url/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Web通讯(HTTP协议)
+        
+      </div>
+    </a>
+  
   
     <a href="/2017/07/for-in-and-for-of/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">for...in和for...of循环的区别</div>
@@ -259,6 +293,19 @@
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#sessionStorage和localStorage的关系"><span class="toc-number">1.</span> <span class="toc-text">sessionStorage和localStorage的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie的概念"><span class="toc-number">2.</span> <span class="toc-text">Cookie的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三者的区别"><span class="toc-number">3.</span> <span class="toc-text">三者的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#localStorage-和-sessionStorage的方法"><span class="toc-number">4.</span> <span class="toc-text">localStorage 和 sessionStorage的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-setItem存储value"><span class="toc-number">4.0.1.</span> <span class="toc-text">1. setItem存储value</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-getItem获取value"><span class="toc-number">4.0.2.</span> <span class="toc-text">2. getItem获取value</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-removeItem删除key"><span class="toc-number">4.0.3.</span> <span class="toc-text">3. removeItem删除key</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-clear清除所有的key-value"><span class="toc-number">4.0.4.</span> <span class="toc-text">4. clear清除所有的key/value</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-其他操作方法：-操作和"><span class="toc-number">4.0.5.</span> <span class="toc-text">5. 其他操作方法：.操作和[]</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-localStorage-和-sessionStorage的遍历"><span class="toc-number">4.0.6.</span> <span class="toc-text">6. localStorage 和 sessionStorage的遍历</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-storage事件"><span class="toc-number">4.0.7.</span> <span class="toc-text">7. storage事件</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
@@ -283,7 +330,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018-2019 Fwfeng
+    		&copy; 2017-2019 Fwfeng
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -380,6 +427,58 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">meta</a>
               </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Web安全</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Web</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">url</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">URL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">HTTP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Web漏洞</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">TCP/IP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HTTPS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">安全</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">SSL/TLS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">性能</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">HTML</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -430,27 +529,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+              <a href="https://www.lmintlcx.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>lcx</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
+              <a href="http://www.nomango.cn/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>不吃芒果</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
+              <a href="https://pgzxc.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>PGzxc</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
+              <a href="http://xiabor.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>xiabor</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
+              <a href="https://www.zonelyn.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>TZLoop</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
+              <a href="https://www.xuanlv1998.cn/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>xuanlv</a>
             </li>
           
         </ul>

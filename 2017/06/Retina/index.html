@@ -12,13 +12,13 @@
 <meta name="keywords" content="css">
 <meta property="og:type" content="article">
 <meta property="og:title" content="移动端高清显示屏Retina的原理">
-<meta property="og:url" content="http://yoursite.com/2017/06/Retina/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/06/retina/index.html">
 <meta property="og:site_name" content="锟斤拷哒">
 <meta property="og:description" content="最近在学习移动端开发的时候，发现了很多与pc端不同的问题，其中最普遍的就是关于ppi、设备像素比之类的概念，下面是关于retina高清显示屏原理，了解这个，就能明白为什么移动端的像素与pc端开发的项目不同。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/assets/images/retina.jpg">
 <meta property="og:image" content="http://yoursite.com/assets/images/jobs.jpg">
-<meta property="og:updated_time" content="2019-08-03T12:25:22.346Z">
+<meta property="og:updated_time" content="2019-08-05T01:29:12.518Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="移动端高清显示屏Retina的原理">
 <meta name="twitter:description" content="最近在学习移动端开发的时候，发现了很多与pc端不同的问题，其中最普遍的就是关于ppi、设备像素比之类的概念，下面是关于retina高清显示屏原理，了解这个，就能明白为什么移动端的像素与pc端开发的项目不同。">
@@ -64,6 +64,8 @@
 			<ul>
 			
 				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/memo">备忘录</a></li>
 	        
 			</ul>
 		</nav>
@@ -117,6 +119,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -133,7 +137,9 @@
 				<ul style="width: 50%">
 				
 				
-					<li style="width: 100%"><a href="/">主页</a></li>
+					<li style="width: 50%"><a href="/">主页</a></li>
+		        
+					<li style="width: 50%"><a href="/memo">备忘录</a></li>
 		        
 				</ul>
 			</nav>
@@ -148,7 +154,7 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Retina" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-retina" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -160,7 +166,27 @@
   
 
         
-        <a href="/2017/06/Retina/" class="archive-article-date">
+        <div style="margin-left:10px; font-size: 12px; color: #999; display: inline-block;">
+  <span class="post-time">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-keyboard-o"></i>
+      <span class="post-meta-item-text">  字数统计: </span>
+      <span class="post-count">863字</span>
+    </span>
+  </span>
+
+  <span class="post-time">
+    &nbsp; | &nbsp;
+    <span class="post-meta-item-icon">
+      <i class="fa fa-hourglass-half"></i>
+      <span class="post-meta-item-text">  阅读时长: </span>
+      <span class="post-count">3分</span>
+    </span>
+  </span>
+</div>
+        
+        
+        <a href="/2017/06/retina/" class="archive-article-date">
   	<time datetime="2017-06-24T05:32:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-24</time>
 </a>
         
@@ -181,14 +207,14 @@
 <p>比如像下面右边的图片变模糊了，原因是高清显示屏显示的像素点相比普通显示屏的像素点由1个变为4个，但位置大小还是没有改变，换个意思就是图片被放大了一倍。</p>
 <p><img src="/assets/images/jobs.jpg" alt="高清显示屏与普通显示屏"></p>
 <hr>
-<h3 id="关于-像素"><a href="#关于-像素" class="headerlink" title="关于[像素]"></a>关于[像素]</h3><h4 id="设备像素-device-pixel"><a href="#设备像素-device-pixel" class="headerlink" title="设备像素(device pixel)"></a>设备像素(device pixel)</h4><p>设备像素设是物理概念，指的是设备中使用的物理像素。<br>比如iPhone 5的分辨率640 x 1136px。</p>
-<h4 id="CSS像素-css-pixel"><a href="#CSS像素-css-pixel" class="headerlink" title="CSS像素(css pixel)"></a>CSS像素(css pixel)</h4><p>CSS像素是Web编程的概念，指的是CSS样式代码中使用的逻辑像素。<br>在CSS规范中，长度单位可以分为两类，绝对(absolute)单位以及相对(relative)单位。px是一个相对单位，相对的是设备像素(device pixel)。</p>
+<h3 id="关于-像素"><a href="#关于-像素" class="headerlink" title="关于[像素]"></a>关于[像素]</h3><h5 id="设备像素-device-pixel"><a href="#设备像素-device-pixel" class="headerlink" title="设备像素(device pixel)"></a>设备像素(device pixel)</h5><p>设备像素设是物理概念，指的是设备中使用的物理像素。<br>比如iPhone 5的分辨率640 x 1136px。</p>
+<h5 id="CSS像素-css-pixel"><a href="#CSS像素-css-pixel" class="headerlink" title="CSS像素(css pixel)"></a>CSS像素(css pixel)</h5><p>CSS像素是Web编程的概念，指的是CSS样式代码中使用的逻辑像素。<br>在CSS规范中，长度单位可以分为两类，绝对(absolute)单位以及相对(relative)单位。px是一个相对单位，相对的是设备像素(device pixel)。</p>
 <p><strong>比如iPhone 5使用的是Retina视网膜屏幕，使用<code>2px x 2px的设备像素(device pixel) 代表1px x 1px的CSS像素(css pixel)</code>，所以设备像素数为640 x 1136px，而CSS逻辑像素数为320 x 568px。</strong></p>
 <hr>
 <h3 id="设备像素比-devicePixelRatio-设备像素与CSS像素之间的换算"><a href="#设备像素比-devicePixelRatio-设备像素与CSS像素之间的换算" class="headerlink" title="设备像素比:devicePixelRatio(设备像素与CSS像素之间的换算)"></a>设备像素比:devicePixelRatio(设备像素与CSS像素之间的换算)</h3><p>首先我们要理解2个概念</p>
-<h4 id="物理像素-physical-pixel"><a href="#物理像素-physical-pixel" class="headerlink" title="物理像素(physical pixel)"></a>物理像素(physical pixel)</h4><p>一个物理像素是显示器(手机屏幕)上最小的物理显示单元，在操作系统的调度下，每一个设备像素都有自己的颜色值和亮度值。</p>
-<h4 id="设备独立像素-density-independent-pixel"><a href="#设备独立像素-density-independent-pixel" class="headerlink" title="设备独立像素(density-independent pixel)"></a>设备独立像素(density-independent pixel)</h4><p>简单粗俗的来说就是css像素</p>
-<h4 id="设备像素比-device-pixel-ratio"><a href="#设备像素比-device-pixel-ratio" class="headerlink" title="设备像素比(device pixel ratio)"></a>设备像素比(device pixel ratio)</h4><p><strong>设备像素比 = 物理像素 / 设备独立像素</strong></p>
+<h5 id="物理像素-physical-pixel"><a href="#物理像素-physical-pixel" class="headerlink" title="物理像素(physical pixel)"></a>物理像素(physical pixel)</h5><p>一个物理像素是显示器(手机屏幕)上最小的物理显示单元，在操作系统的调度下，每一个设备像素都有自己的颜色值和亮度值。</p>
+<h5 id="设备独立像素-density-independent-pixel"><a href="#设备独立像素-density-independent-pixel" class="headerlink" title="设备独立像素(density-independent pixel)"></a>设备独立像素(density-independent pixel)</h5><p>简单粗俗的来说就是css像素</p>
+<h5 id="设备像素比-device-pixel-ratio"><a href="#设备像素比-device-pixel-ratio" class="headerlink" title="设备像素比(device pixel ratio)"></a>设备像素比(device pixel ratio)</h5><p><strong>设备像素比 = 物理像素 / 设备独立像素</strong></p>
 <p>在javascript中，可以通过<code>window.devicePixelRatio</code>获取到当前设备的dpr。</p>
 <p>通过计算 devicePixelRatio 的值，是可以区分普通显示屏和高清显示器，当devicePixelRatio值等于1时（也就是最小值），那么它普通显示屏，当devicePixelRatio值大于1(通常是2.0、3.0)，那么它就是高清显示屏。</p>
 <p><strong>了解这个原理，当dpr&gt;1时候，正常的图片像素点与<code>物理像素</code>点个数不是1:1的关系，所以图片像素点不够，所有只能就近取色，从而导致图片模糊</strong></p>
@@ -196,7 +222,6 @@
 <hr>
 <h3 id="关于Retina下，border：1px的问题"><a href="#关于Retina下，border：1px的问题" class="headerlink" title="关于Retina下，border：1px的问题"></a>关于Retina下，border：1px的问题</h3><p>其实设计师想要的1px，是希望在Retina下的0.5px。既最小的一个物理像素(这是retina下(dpr=2)下能显示的最小单位)。</p>
 <p>一般常用的解决方法：<br><a href="http://fweifeng.com/2017/06/26/border1px.html" target="_blank" rel="noopener">移动端最小物理像素的实现(border:1px)</a></p>
-<hr>
 
       
 
@@ -239,7 +264,7 @@
     </a>
   
   
-    <a href="/2017/06/Html5-Canvas/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/06/HTML5-Canvas/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">Html5标签之canvas</div>
       <i class="icon-circle-right"></i>
     </a>
@@ -259,6 +284,19 @@
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#高清显示屏特征"><span class="toc-number">1.</span> <span class="toc-text">高清显示屏特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高清显示屏下图片变模糊"><span class="toc-number">2.</span> <span class="toc-text">高清显示屏下图片变模糊</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于-像素"><span class="toc-number">3.</span> <span class="toc-text">关于[像素]</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#设备像素-device-pixel"><span class="toc-number">3.0.1.</span> <span class="toc-text">设备像素(device pixel)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CSS像素-css-pixel"><span class="toc-number">3.0.2.</span> <span class="toc-text">CSS像素(css pixel)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设备像素比-devicePixelRatio-设备像素与CSS像素之间的换算"><span class="toc-number">4.</span> <span class="toc-text">设备像素比:devicePixelRatio(设备像素与CSS像素之间的换算)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#物理像素-physical-pixel"><span class="toc-number">4.0.1.</span> <span class="toc-text">物理像素(physical pixel)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#设备独立像素-density-independent-pixel"><span class="toc-number">4.0.2.</span> <span class="toc-text">设备独立像素(density-independent pixel)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#设备像素比-device-pixel-ratio"><span class="toc-number">4.0.3.</span> <span class="toc-text">设备像素比(device pixel ratio)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于Retina下，border：1px的问题"><span class="toc-number">5.</span> <span class="toc-text">关于Retina下，border：1px的问题</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
@@ -283,7 +321,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018-2019 Fwfeng
+    		&copy; 2017-2019 Fwfeng
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -380,6 +418,58 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">meta</a>
               </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Web安全</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Web</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">url</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">URL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">HTTP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Web漏洞</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">TCP/IP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HTTPS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">安全</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">SSL/TLS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">性能</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">HTML</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -430,27 +520,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+              <a href="https://www.lmintlcx.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>lcx</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
+              <a href="http://www.nomango.cn/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>不吃芒果</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
+              <a href="https://pgzxc.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>PGzxc</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
+              <a href="http://xiabor.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>xiabor</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
+              <a href="https://www.zonelyn.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>TZLoop</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
+              <a href="https://www.xuanlv1998.cn/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>xuanlv</a>
             </li>
           
         </ul>
