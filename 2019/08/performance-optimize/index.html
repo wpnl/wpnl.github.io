@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Web通讯(HTTP协议) | 锟斤拷哒</title>
+  <title>页面性能优化 | 锟斤拷哒</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="记录学习Web通讯基础，URL是网络上的链接，这个链接就像一个地址，用来准确定位到某个资源；下面是有关URL的简单介绍和理解。">
-<meta name="keywords" content="Web,URL,HTTP">
+  <meta name="description" content="一个页面的加载速度，与网络、浏览器渲染过程两个方面相关，下面分别从两个方向去讨论如何提升页面加载速度。">
+<meta name="keywords" content="性能,HTML">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Web通讯(HTTP协议)">
-<meta property="og:url" content="http://yoursite.com/2019/06/web-url/index.html">
+<meta property="og:title" content="页面性能优化">
+<meta property="og:url" content="http://yoursite.com/2019/08/performance-optimize/index.html">
 <meta property="og:site_name" content="锟斤拷哒">
-<meta property="og:description" content="记录学习Web通讯基础，URL是网络上的链接，这个链接就像一个地址，用来准确定位到某个资源；下面是有关URL的简单介绍和理解。">
+<meta property="og:description" content="一个页面的加载速度，与网络、浏览器渲染过程两个方面相关，下面分别从两个方向去讨论如何提升页面加载速度。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-07T03:28:47.080Z">
+<meta property="og:updated_time" content="2019-08-09T08:57:35.093Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Web通讯(HTTP协议)">
-<meta name="twitter:description" content="记录学习Web通讯基础，URL是网络上的链接，这个链接就像一个地址，用来准确定位到某个资源；下面是有关URL的简单介绍和理解。">
+<meta name="twitter:title" content="页面性能优化">
+<meta name="twitter:description" content="一个页面的加载速度，与网络、浏览器渲染过程两个方面相关，下面分别从两个方向去讨论如何提升页面加载速度。">
   
     <link rel="alternative" href="/atom.xml" title="锟斤拷哒" type="application/atom+xml">
   
@@ -151,14 +151,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-web-url" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-performance-optimize" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Web通讯(HTTP协议)
+      页面性能优化
     </h1>
   
 
@@ -168,7 +168,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-keyboard-o"></i>
       <span class="post-meta-item-text">  字数统计: </span>
-      <span class="post-count">1.5k字</span>
+      <span class="post-count">1.8k字</span>
     </span>
   </span>
 
@@ -177,117 +177,95 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-hourglass-half"></i>
       <span class="post-meta-item-text">  阅读时长: </span>
-      <span class="post-count">5分</span>
+      <span class="post-count">6分</span>
     </span>
   </span>
 </div>
         
         
-        <a href="/2019/06/web-url/" class="archive-article-date">
-  	<time datetime="2019-06-29T08:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-29</time>
+        <a href="/2019/08/performance-optimize/" class="archive-article-date">
+  	<time datetime="2019-08-08T08:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-08</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>记录学习Web通讯基础，URL是网络上的链接，这个链接就像一个地址，用来准确定位到某个资源；下面是有关URL的简单介绍和理解。</p>
+        <p>一个页面的加载速度，与网络、浏览器渲染过程两个方面相关，下面分别从两个方向去讨论如何提升页面加载速度。</p>
 <a id="more"></a>
 
-<h2 id="URL是什么？"><a href="#URL是什么？" class="headerlink" title="URL是什么？"></a>URL是什么？</h2><p>URL又叫做<strong>统一资源定位符</strong>（<strong>U</strong>niform <strong>R</strong>esource <strong>L</strong>ovator），它支持多种协议：<strong>HTTP</strong>、<strong>FTP</strong>…</p>
-<h3 id="URL的格式"><a href="#URL的格式" class="headerlink" title="URL的格式"></a>URL的格式</h3><p>URL是有标准的格式，所有的浏览器和Web服务器都遵循这个标准的格式，保障了我们使用的浏览器能够访问服务器里特定的资源。</p>
-<p>URL的详细格式：<strong>schema://host[:port#]/path/…/[?query-string][#anchor]</strong></p>
+<p>在讨论优化页面性能、提高页面加载速度的之前，我们先了解下浏览器渲染页面的原理及过程。</p>
+<h2 id="浏览器如何渲染一个页面"><a href="#浏览器如何渲染一个页面" class="headerlink" title="浏览器如何渲染一个页面"></a>浏览器如何渲染一个页面</h2><p>先看看浏览器工作大流程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">HTML Source           CSS</span><br><span class="line">    |                  |</span><br><span class="line">    |                  |</span><br><span class="line">    |                  |</span><br><span class="line">    |                  |</span><br><span class="line"> Dom Tree          样式结构体</span><br><span class="line">    \                  /</span><br><span class="line">     \                /</span><br><span class="line">      \              /</span><br><span class="line">       \            /</span><br><span class="line">        \          /</span><br><span class="line">      Render Tree（呈现树）</span><br><span class="line">            |</span><br><span class="line">            |</span><br><span class="line">            |</span><br><span class="line">            |</span><br><span class="line">         绘制页面</span><br></pre></td></tr></table></figure>
+
 <ol>
-<li>schema：底层协议（例如：http，https，ftp）</li>
-<li>host：服务器的域名或者IP地址</li>
-<li>port：服务器端口（HTTP默认端口是80，可省略）</li>
-<li>path：表示访问资源的路径</li>
-<li>query-string：发送给http服务器的数据</li>
-<li>anchor：锚点，通常表示在页面的特定位置</li>
+<li>浏览器把获取到的HTML代码解析成DOM树，HTML中的每个标签都是DOM树中的一个节点，根节点就是我们常用的document对象。DOM树里包含了所有HTML标签，包括display:none隐藏，还有用JS动态添加的元素等。</li>
+<li>浏览器把所有样式解析成样式结构体。</li>
+<li>解析完成后，浏览器引擎会通过DOM树和样式结构体来构造<strong>Render Tree</strong>。</li>
+<li>开始渲染。</li>
 </ol>
-<hr>
-<p>从上面我们知道了什么是URL，知道URL包含很多协议，其中HTTP就是我们Web使用的协议，下面内容讲解什么HTTP协议相关知识。</p>
-<h2 id="HTTP是什么？"><a href="#HTTP是什么？" class="headerlink" title="HTTP是什么？"></a>HTTP是什么？</h2><p>HTTP又叫做<strong>超文本传输协议</strong>（<strong>H</strong>yper <strong>T</strong>ext <strong>T</strong>ransfer <strong>P</strong>rotocol）,它是Web通讯最常用的协议。</p>
-<p><strong>HTTP</strong>报文是是比较重要的内容，其中包含请求报文和响应报文。简单的来说，<strong>HTTP</strong>报文都由简单的三部分组成（起始行，头，主体）。<strong>HTTP</strong>协议中的请求和响应报文中必定包含<strong>HTTP</strong>首部（起始行，头），首部内容为客户端和服务器分别处理请求和响应提供所需要的信息。下来来看看请求和响应报文的内容。</p>
-<h3 id="HTTP请求报文"><a href="#HTTP请求报文" class="headerlink" title="HTTP请求报文"></a>HTTP请求报文</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">GET /sugrec?pre=1&amp;p=3 HTTP/1.1     ---请求行（Request Line）</span><br><span class="line">Host: www.baidu.com                ---头部（Headers）</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Accept: text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36</span><br><span class="line">Referer: https://www.baidu.com/s?wd=%E9%94%9A&amp;rsv_spt=1</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: BIDUPSID=C4EC634634EE54FFA735244DAFA786D8; PSTM=1523352909; BD_UPN=123253; __cfduid=da802f70bcb5061a35bb3437e96873ab41542608259; BAIDUID=57224FD0460FA6A0918A6B0678BF848D:FG=1; MSA_WH=320_568; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598; delPer=0; BD_CK_SAM=1; BD_HOME=1; BDRCVFR[feWj1Vr5u3D]=I67x6TjHwwYf0;</span><br><span class="line"></span><br><span class="line">----------------------------------------------</span><br><span class="line">|                                            |</span><br><span class="line">|                                            |</span><br><span class="line">|       数据体（Body）GET请求无此部分</span><br><span class="line">|                                            |</span><br><span class="line">|                                            |</span><br><span class="line">----------------------------------------------</span><br></pre></td></tr></table></figure>
-
-<h3 id="HTTP响应报文"><a href="#HTTP响应报文" class="headerlink" title="HTTP响应报文"></a>HTTP响应报文</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK ---状态行（Status Line）</span><br><span class="line">Content-Length: 404 ---消息报头</span><br><span class="line">Content-Type: text/plain; charset=UTF-8</span><br><span class="line">Date: Mon, 05 Aug 2019 02:31:02 GMT</span><br><span class="line"></span><br><span class="line">----------------------------------------------</span><br><span class="line">|                                            |</span><br><span class="line">|                                            |</span><br><span class="line">|                  响应正文</span><br><span class="line">|                                            |</span><br><span class="line">|                                            |</span><br><span class="line">----------------------------------------------</span><br></pre></td></tr></table></figure>
-
-<h3 id="相应报文状态码"><a href="#相应报文状态码" class="headerlink" title="相应报文状态码"></a>相应报文状态码</h3><table>
-<thead>
-<tr>
-<th></th>
-<th>类别</th>
-<th>解释</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1XX</td>
-<td>信息性状态码</td>
-<td>接受的请求正在处理</td>
-</tr>
-<tr>
-<td>2XX</td>
-<td>成功状态码</td>
-<td>请求正常处理完成</td>
-</tr>
-<tr>
-<td>3XX</td>
-<td>重定向状态码</td>
-<td>需要进行附加操作</td>
-</tr>
-<tr>
-<td>4XX</td>
-<td>客户端错误状态码</td>
-<td>服务器无法处理请求</td>
-</tr>
-<tr>
-<td>5XX</td>
-<td>服务器错误状态码</td>
-<td>服务器处理请求出错</td>
-</tr>
-</tbody></table>
-<p><strong>状态码详细解析</strong></p>
+<p><strong>注意：</strong></p>
 <ul>
-<li><strong>200</strong>：表示从客户端发来的请求在服务器被正常处理。</li>
-<li><strong>204</strong>：表示服务器接收的请求已成功处理，但没有数据返回。</li>
-<li><strong>206</strong>：表示客户端进行了范围请求，而服务器成功执行了这部分的请求。响应报文中包含由<strong>Content-Range</strong>指定范围的实体内容。</li>
-<li><strong>301</strong>：永久重定向（告知浏览器更新书签引用）。</li>
-<li><strong>302</strong>：临时性重定向。表示请求的资源已被分配了新的URI，希望用户（本次）能使用新的URI访问。</li>
-<li><strong>303</strong>：表示由于请求对应的资源存在着另一个URI，应使用GET方式定向获取请求的资源。（303状态码和302状态码有着相同的功能，但303状态码明确表示客户端应当采用GET方式获取资源。）</li>
-<li><strong>400</strong>：表示请求报文中存在语法错误。</li>
-<li><strong>401</strong>：表示发送的请求需要有通过HTTP认证的认证信息。另外如果之前已进行过一次请求，则表示用户认证失败。</li>
-<li><strong>403</strong>：表示对请求资源的访问被服务器拒绝了。</li>
-<li><strong>404</strong>：表示服务器上无法找到请求的资源。</li>
-<li><strong>500</strong>：表示服务器在执行请求时发生了错误。</li>
-<li><strong>503</strong>：表示服务器暂时处于超负载或正在进行停机维护，现在无法处理请求。</li>
+<li>DOM树和样式结构体组合后构建<strong>Render Tree</strong>,类似于DOM树，但区别很大。<strong>Render Tree</strong>能识别样式，且每个节点都有自己的style，而且不包含隐藏的节点。（比如display:none的节点，还有head节点），这些节点不会用于呈现，就不会包含到<strong>Render Tree</strong>中。</li>
+<li>CSS匹配HTML元素是一个相当复杂和有性能问题的事情。所以，DOM树要小，CSS尽量用id和class，不要用标签选择器，尽量不要过渡层叠下去。</li>
 </ul>
-<h3 id="HTTP首部字段-请求头部、消息报头）"><a href="#HTTP首部字段-请求头部、消息报头）" class="headerlink" title="HTTP首部字段(请求头部、消息报头）"></a>HTTP首部字段(请求头部、消息报头）</h3><p>HTTP首部字段是构成HTTP报文的重要要素之一。无论是请求还是响应都会使用首部字段，它能起到传递额外重要信息的作用。</p>
-<h4 id="四种HTTP首部字段类型。"><a href="#四种HTTP首部字段类型。" class="headerlink" title="四种HTTP首部字段类型。"></a>四种HTTP首部字段类型。</h4><h5 id="通用首部字段"><a href="#通用首部字段" class="headerlink" title="通用首部字段"></a>通用首部字段</h5><blockquote>
-<p>请求报文和响应报文都会使用的首部字段。</p>
-</blockquote>
-<h5 id="请求首部字段"><a href="#请求首部字段" class="headerlink" title="请求首部字段"></a>请求首部字段</h5><blockquote>
-<p>从客户端向服务器发送请求报文时使用的首部，补充了请求的附加内容、客户端信息、响应内容相关优先级等信息。</p>
-</blockquote>
-<h5 id="响应首部字段"><a href="#响应首部字段" class="headerlink" title="响应首部字段"></a>响应首部字段</h5><blockquote>
-<p>从服务器向客户端返回响应报文时使用的首部，补充了响应的附加内容，也会要求客户端附加额外的内容信息。</p>
-</blockquote>
-<h5 id="实体首部字段"><a href="#实体首部字段" class="headerlink" title="实体首部字段"></a>实体首部字段</h5><blockquote>
-<p>针对请求报文和响应报文的实体部分使用的首部。补充了资源内容更新时间等与实体有关的信息。</p>
-</blockquote>
-<p>由于字段内容多且复杂，具体字段细节不在细说。</p>
-<p>补充：</p>
+<h2 id="回流与重绘"><a href="#回流与重绘" class="headerlink" title="回流与重绘"></a>回流与重绘</h2><h3 id="回流（reflow）"><a href="#回流（reflow）" class="headerlink" title="回流（reflow）"></a>回流（reflow）</h3><p>当<strong>Render Tree</strong>中元素的规模尺寸，布局，隐藏等改变而需要重新构建。这就称为回流。每个页面至少需要一次回流，就是在页面第一次加载的时候。回流会从<strong>html</strong>这个<strong>root frame</strong>开始递归往下，依次计算所有的结点几何尺寸和位置。</p>
+<h3 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h3><p>屏幕的一部分要重画，比如某个CSS的背景色变了。但是元素的几何尺寸没有变时，该过程成为重绘。</p>
+<p>回流必将引起重绘，而重绘不一定会引起回流。</p>
+<p>回流发生的情况：</p>
 <ol>
-<li>get请求数据体是没有的，post请求发送的数据就会在数据体里。</li>
-<li><strong>请求头部和数据体</strong>之间会有一行空行；<strong>消息报头和响应正文</strong>之间也会有一行空行；</li>
+<li>添加或者删除可见的DOM元素。</li>
+<li>元素位置改变。</li>
+<li>元素尺寸改变：边距、填充、边框、宽度和高度。</li>
+<li>内容改变：比如文本改变或者图片大小改变而引起的计算值宽度和高度改变。</li>
+<li>浏览器窗口尺寸改变：resize事件发生。</li>
 </ol>
-<p>请求头部有两个比较重要的字段我们可以了解一下。</p>
+<h3 id="减少回流、重绘"><a href="#减少回流、重绘" class="headerlink" title="减少回流、重绘"></a>减少回流、重绘</h3><p>回流是一个很耗性能的过程。我们要提供渲染性能，就要减少回流和重绘的操作。</p>
 <ol>
-<li><strong>Cookie</strong>是用户的凭证（jwt的作用和Cookie相似，常用于登录身份校验）。</li>
-<li><strong>Referer</strong>：主要作用是告知服务器该请求的来源（浏览器自动加上）所以可以用于统计流量的来源，也可以用于判断来源是否合法（防止盗链、防止CSRF漏洞）。</li>
+<li>为动画的HTML元素使用fixed或absoult的定位。</li>
+<li>让要操作的元素进行”离线处理”，处理完后一起更新。</li>
+</ol>
+<h2 id="页面性能优化办法（网络、数据方面）"><a href="#页面性能优化办法（网络、数据方面）" class="headerlink" title="页面性能优化办法（网络、数据方面）"></a>页面性能优化办法（网络、数据方面）</h2><h3 id="资源压缩与合并"><a href="#资源压缩与合并" class="headerlink" title="资源压缩与合并"></a>资源压缩与合并</h3><ol>
+<li>html压缩</li>
+<li>css压缩</li>
+<li>js压缩</li>
+<li>文件合并</li>
+</ol>
+<h3 id="非核心代码异步加载"><a href="#非核心代码异步加载" class="headerlink" title="非核心代码异步加载"></a>非核心代码异步加载</h3><p>直接使用script，html会按照顺序来加载并执行脚本，在脚本加载执行的过程中，会<strong>阻塞</strong>后续的DOM渲染。所以script提供了async和defer属性来解决上述问题。</p>
+<p>异步加载的方式：defer、async。</p>
+<p><strong>defer</strong></p>
+<ul>
+<li>如果script标签设置了该属性，则浏览器会异步的下载该文件并且不会影响到后续DOM的渲染。</li>
+<li>如果有多个设置了defer的script标签存在，则会<strong>按照顺序执行</strong>所有的script。</li>
+<li>defer脚本会在文档渲染完毕后，DOMContentLoaded事件调用前执行。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"2.js"</span> defer &gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"1.js"</span> defer &gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.js</span></span><br><span class="line"><span class="comment">// 1.js</span></span><br><span class="line"><span class="comment">// DOMContentLoaded</span></span><br></pre></td></tr></table></figure>
+
+<p>就算1.js加载用时比2.js短，但因为defer的限制，所以1.js只能等前边的脚本执行完毕后才能执行</p>
+<p><strong>async</strong></p>
+<ul>
+<li>async的设置，会使得script脚本异步的加载并在允许的情况下执行。</li>
+<li>async的执行，并不会按着script在页面中的顺序来执行，而是谁先加载完谁执行。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"2.js"</span> <span class="keyword">async</span> &gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"1.js"</span> <span class="keyword">async</span> &gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// DOMContentLoaded</span></span><br><span class="line"><span class="comment">// 1.js</span></span><br><span class="line"><span class="comment">// 2.js</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：<strong>DOMContentLoaded</strong>事件的触发并不受async脚本加载的影响，在脚本加载完之前，就已经触发了<strong>DOMContentLoaded</strong></p>
+<p>async的执行是加载完成就会去执行，而不像defer那样要等待所有的脚本加载完后按照顺序执行。</p>
+<p><strong>普通script</strong><br>文档解析的过程中，如果遇到script脚本，就会停止页面的解析进行下载（但是Chrome会做一个优化，如果遇到script脚本，会快速的查看后边有没有需要下载其他资源的，如果有的话，会先下载那些资源，然后再进行下载script所对应的资源，这样能够节省一部分下载的时间）。<br>资源的下载是在解析过程中进行的，虽然1.js脚本会很快的加载完毕，但是他前边的2.js并没有加载执行，所以他只能处于一个挂起的状态，等待2.js执行完毕后再执行。<br>当这两个脚本都执行完毕后，才会继续解析页面。</p>
+<p><strong>defer</strong></p>
+<p>文档解析时，遇到设置了defer的脚本，就会在后台进行下载，但是并不会阻止文档的渲染，当页面解析&amp;渲染完毕后。<br>会等到所有的defer脚本加载完毕并按照顺序执行，执行完毕后会触发DOMContentLoaded事件。</p>
+<p><strong>async</strong></p>
+<p>async脚本会在加载完毕后执行。<br>async脚本的加载不计入DOMContentLoaded事件统计。</p>
+<h3 id="使用CDN加速"><a href="#使用CDN加速" class="headerlink" title="使用CDN加速"></a>使用CDN加速</h3><p>通过将静态资源(例如javascript，css，图片等等）缓存到离用户很近的相同网络运营商的CDN节点上，不但能提升用户的访问速度，还能节省服务器的带宽消耗，降低负载。</p>
+<h3 id="预解析DNS"><a href="#预解析DNS" class="headerlink" title="预解析DNS"></a>预解析DNS</h3><p>资源预加载是另一个性能优化技术，我们可以使用该技术来预先告知浏览器某些资源可能在将来会被使用到。</p>
+<p>例如，我们将来可从 baidu.com 获取图片或音频资源，那么可以在文档顶部的 标签中加入以下内容。</p>
+<p><code>&lt;link rel=&quot;dns-prefetch&quot; href=&quot;//baidu.com&quot;&gt;</code></p>
+<h3 id="利用浏览器缓存"><a href="#利用浏览器缓存" class="headerlink" title="利用浏览器缓存"></a>利用浏览器缓存</h3><ol>
+<li>强缓存：不会向服务器发送请求，直接从缓存中读取资源，在chrome控制台的network选项中可以看到该请求返回200的状态码，并且size显示from disk cache或from memory cache；</li>
+<li>协商缓存：向服务器发送请求，服务器会根据这个请求的request header的一些参数来判断是否命中协商缓存，如果命中，则返回304状态码并带上新的response header通知浏览器从缓存中读取资源；另外协商缓存需要与cache-control共同使用。</li>
 </ol>
 <hr>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>《图解HTTP》<br>《Web白帽子》</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://juejin.im/post/5b022bdf518825426d2d69fe" target="_blank" rel="noopener">页面性能优化</a><br><a href="https://coolshell.cn/articles/9666.html" target="_blank" rel="noopener">浏览器的渲染原理简介</a><br><a href="https://www.html.cn/archives/4996" target="_blank" rel="noopener">页面重绘和回流以及优化</a></p>
 
       
 
@@ -301,15 +279,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Web</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">性能</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">URL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTP</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTML</a>
         		</li>
       		
 		</ul>
@@ -328,18 +302,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/07/https/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          HTTPS原理理解
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/07/HTML5-storage/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">HTMl5的sessionStorage和localStorage</div>
+    <a href="/2019/08/url-loading-process/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">从输入URL到页面加载完成的过程</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -366,7 +331,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#URL是什么？"><span class="toc-number">1.</span> <span class="toc-text">URL是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#URL的格式"><span class="toc-number">1.1.</span> <span class="toc-text">URL的格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP是什么？"><span class="toc-number">2.</span> <span class="toc-text">HTTP是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP请求报文"><span class="toc-number">2.1.</span> <span class="toc-text">HTTP请求报文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP响应报文"><span class="toc-number">2.2.</span> <span class="toc-text">HTTP响应报文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相应报文状态码"><span class="toc-number">2.3.</span> <span class="toc-text">相应报文状态码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP首部字段-请求头部、消息报头）"><span class="toc-number">2.4.</span> <span class="toc-text">HTTP首部字段(请求头部、消息报头）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#四种HTTP首部字段类型。"><span class="toc-number">2.4.1.</span> <span class="toc-text">四种HTTP首部字段类型。</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#通用首部字段"><span class="toc-number">2.4.1.1.</span> <span class="toc-text">通用首部字段</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#请求首部字段"><span class="toc-number">2.4.1.2.</span> <span class="toc-text">请求首部字段</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#响应首部字段"><span class="toc-number">2.4.1.3.</span> <span class="toc-text">响应首部字段</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实体首部字段"><span class="toc-number">2.4.1.4.</span> <span class="toc-text">实体首部字段</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">3.</span> <span class="toc-text">参考文献</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器如何渲染一个页面"><span class="toc-number">1.</span> <span class="toc-text">浏览器如何渲染一个页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回流与重绘"><span class="toc-number">2.</span> <span class="toc-text">回流与重绘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#回流（reflow）"><span class="toc-number">2.1.</span> <span class="toc-text">回流（reflow）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重绘"><span class="toc-number">2.2.</span> <span class="toc-text">重绘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#减少回流、重绘"><span class="toc-number">2.3.</span> <span class="toc-text">减少回流、重绘</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#页面性能优化办法（网络、数据方面）"><span class="toc-number">3.</span> <span class="toc-text">页面性能优化办法（网络、数据方面）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#资源压缩与合并"><span class="toc-number">3.1.</span> <span class="toc-text">资源压缩与合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非核心代码异步加载"><span class="toc-number">3.2.</span> <span class="toc-text">非核心代码异步加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用CDN加速"><span class="toc-number">3.3.</span> <span class="toc-text">使用CDN加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#预解析DNS"><span class="toc-number">3.4.</span> <span class="toc-text">预解析DNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用浏览器缓存"><span class="toc-number">3.5.</span> <span class="toc-text">利用浏览器缓存</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">4.</span> <span class="toc-text">参考文献</span></a></li></ol>
                     </div>
                 </span>
             </div>
