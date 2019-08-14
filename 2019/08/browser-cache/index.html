@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 性能 | 锟斤拷哒</title>
+  <title>理解浏览器缓存机制 | 锟斤拷哒</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="안녕하십니까">
-<meta name="keywords" content="咸鱼,美食,做饭,周杰伦粉丝,卖萌,前端,心理学,js,vue,react,javascript,html5,开发者,程序猿,编程,代码,html,css,css3,用户体验">
-<meta property="og:type" content="website">
-<meta property="og:title" content="锟斤拷哒">
-<meta property="og:url" content="http://yoursite.com/tags/性能/index.html">
+  <meta name="description" content="浏览器的缓存机制也就是我们说的HTTP缓存机制，其机制是根据HTTP报文的缓存标识进行的。简单的理解就是把一个已经请求过的资源拷贝一份存储起来，当下次需要该资源时，浏览器会根据缓存机制决定直接使用缓存资源还是再次向服务器发送请求。">
+<meta name="keywords" content="浏览器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解浏览器缓存机制">
+<meta property="og:url" content="http://yoursite.com/2019/08/browser-cache/index.html">
 <meta property="og:site_name" content="锟斤拷哒">
-<meta property="og:description" content="안녕하십니까">
+<meta property="og:description" content="浏览器的缓存机制也就是我们说的HTTP缓存机制，其机制是根据HTTP报文的缓存标识进行的。简单的理解就是把一个已经请求过的资源拷贝一份存储起来，当下次需要该资源时，浏览器会根据缓存机制决定直接使用缓存资源还是再次向服务器发送请求。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/assets/images/browser-cache/1.jpeg">
+<meta property="og:updated_time" content="2019-08-14T03:52:28.446Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="锟斤拷哒">
-<meta name="twitter:description" content="안녕하십니까">
+<meta name="twitter:title" content="理解浏览器缓存机制">
+<meta name="twitter:description" content="浏览器的缓存机制也就是我们说的HTTP缓存机制，其机制是根据HTTP报文的缓存标识进行的。简单的理解就是把一个已经请求过的资源拷贝一份存储起来，当下次需要该资源时，浏览器会根据缓存机制决定直接使用缓存资源还是再次向服务器发送请求。">
+<meta name="twitter:image" content="http://yoursite.com/assets/images/browser-cache/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="锟斤拷哒" type="application/atom+xml">
   
@@ -150,106 +153,261 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-browser-cache" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/performance-optimize/" class="archive-article-date">
-  	<time datetime="2019-08-08T08:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/performance-optimize/">页面性能优化</a>
+    <h1 class="article-title" itemprop="name">
+      理解浏览器缓存机制
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <div style="margin-left:10px; font-size: 12px; color: #999; display: inline-block;">
+  <span class="post-time">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-keyboard-o"></i>
+      <span class="post-meta-item-text">  字数统计: </span>
+      <span class="post-count">2.8k字</span>
+    </span>
+  </span>
+
+  <span class="post-time">
+    &nbsp; | &nbsp;
+    <span class="post-meta-item-icon">
+      <i class="fa fa-hourglass-half"></i>
+      <span class="post-meta-item-text">  阅读时长: </span>
+      <span class="post-count">10分</span>
+    </span>
+  </span>
+</div>
+        
+        
+        <a href="/2019/08/browser-cache/" class="archive-article-date">
+  	<time datetime="2019-08-14T05:32:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>浏览器的缓存机制也就是我们说的HTTP缓存机制，其机制是根据HTTP报文的缓存标识进行的。简单的理解就是把一个已经请求过的资源拷贝一份存储起来，当下次需要该资源时，浏览器会根据缓存机制决定直接使用缓存资源还是再次向服务器发送请求。</p>
+<a id="more"></a>
+
+<h2 id="缓存过程分析"><a href="#缓存过程分析" class="headerlink" title="缓存过程分析"></a>缓存过程分析</h2><p>浏览器与服务器通信的方式为应答模式，即是：浏览器发起HTTP请求 – 服务器响应该请求。那么浏览器第一次向服务器发起该请求后拿到请求结果，会根据响应报文中HTTP头的缓存标识，决定是否缓存结果，是则将请求结果和缓存标识存入浏览器缓存中。</p>
+<ul>
+<li>浏览器每次发起请求，都会先在浏览器缓存中查找该请求的结果以及缓存标识</li>
+<li>浏览器每次拿到返回的请求结果都会将该结果和缓存标识存入浏览器缓存中</li>
+</ul>
+<h2 id="浏览器缓存机制"><a href="#浏览器缓存机制" class="headerlink" title="浏览器缓存机制"></a>浏览器缓存机制</h2><h3 id="缓存位置"><a href="#缓存位置" class="headerlink" title="缓存位置"></a>缓存位置</h3><p>浏览器缓存位置分为四种，其优先级顺序如下：</p>
+<ol>
+<li>Service Worker</li>
+<li>Memory Cache</li>
+<li>Disk Cache</li>
+<li>Push Cache</li>
+</ol>
+<h3 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h3><p>Service Worker 是运行在浏览器背后的独立线程，一般可以用来实现缓存功能。使用 Service Worker的话，传输协议必须为 HTTPS。因为 Service Worker 中涉及到请求拦截，所以必须使用 HTTPS 协议来保障安全。Service Worker 的缓存与浏览器其他内建的缓存机制不同，它可以让我们自由控制<strong>缓存哪些文件、如何匹配缓存、如何读取缓存，并且缓存是持续性的</strong>。</p>
+<h3 id="Memory-Cache"><a href="#Memory-Cache" class="headerlink" title="Memory Cache"></a>Memory Cache</h3><p>Memory Cache 即内存中的缓存，其特点是<strong>容量小、读取高效、持续性短，会随着进程的释放而释放</strong>。</p>
+<ul>
+<li><strong>读取高效</strong>：内存缓存会将编译解析后的文件，直接存入该进程的内存中，占据该进程一定的内存资源，以方便下次运行使用时的快速读取。</li>
+<li><strong>持续性短</strong>：一旦该进程关闭，则该进程的内存则会清空。</li>
+</ul>
+<h3 id="Disk-Cache"><a href="#Disk-Cache" class="headerlink" title="Disk Cache"></a>Disk Cache</h3><p>Disk Cache 即磁盘中的缓存，其特点是<strong>容量大、读取缓慢、持续性长，任何资源都能存储到磁盘中。</strong></p>
+<p><em>浏览器会把哪些文件丢进内存中？哪些丢进硬盘中？</em></p>
+<blockquote>
+<p>对于大文件来说，大概率是不存储在内存中的，反之优先.<br><br>当前系统内存使用率高的话，文件优先存储进硬盘</p>
+</blockquote>
+<h3 id="Push-Cache"><a href="#Push-Cache" class="headerlink" title="Push Cache"></a>Push Cache</h3><p>Push Cache（推送缓存）是 HTTP/2 中的内容，当以上三种缓存都没有命中时，它才会被使用。它只在会话（Session）中存在，<strong>一旦会话结束就被释放，并且缓存时间也很短暂</strong>，在Chrome浏览器中只有5分钟左右，同时它也并非严格执行HTTP头中的缓存指令。</p>
+<p>总结特点：</p>
+<ul>
+<li>所有的资源都能被推送，并且能够被缓存,但是 Edge 和 Safari 浏览器支持相对比较差。</li>
+<li>可以推送 no-cache 和 no-store 的资源。</li>
+<li>一旦连接被关闭，Push Cache 就被释放。</li>
+<li>多个页面可以使用同一个HTTP/2的连接，也就可以使用同一个Push Cache。这主要还是依赖浏览器的实现而定，出于对性能的考虑，有的浏览器会对相同域名但不同的tab标签使用同一个HTTP连接。</li>
+<li>Push Cache 中的缓存只能被使用一次。</li>
+<li>浏览器可以拒绝接受已经存在的资源推送。</li>
+<li>你可以给其他域名推送资源。</li>
+</ul>
+<p>如果以上四种缓存都没有命中的话，那么只能发起请求来获取资源了。</p>
+<h3 id="缓存策略"><a href="#缓存策略" class="headerlink" title="缓存策略"></a>缓存策略</h3><p>浏览器每次在向服务器发起 HTTP 请求获得资源后，可能会根据不同情况（可能是代码控制如 Service Worker、Push Cache，也可能是根据 HTTP Header 的缓存标识字段）将资源缓存起来。<br>浏览器缓存策略分为强制缓存和协商缓存，其是通过设置 HTTP Header 来实现的。</p>
+<h4 id="强制缓存"><a href="#强制缓存" class="headerlink" title="强制缓存"></a>强制缓存</h4><p>强制缓存就是向浏览器缓存查找该请求结果，并根据该结果的缓存规则来决定是否使用该缓存结果的过程。强缓存可以通过设置两种 HTTP Header 实现：<strong>Expires 和 Cache-Control</strong>；强制缓存的情况主要有三种</p>
+<ul>
+<li>不存在该缓存结果和缓存标识，强制缓存失效，则直接向服务器发起请求。</li>
+<li>存在该缓存结果和缓存标识，但该结果已失效，强制缓存失效，则使用协商缓存(暂不分析)。</li>
+<li>存在该缓存结果和缓存标识，且该结果尚未失效，强制缓存生效，直接返回该结果（请求返回200的状态码）。</li>
+</ul>
+<h5 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h5><p>这是 HTTP 1.0 的字段，表示缓存到期时间，是一个绝对的时间 (当前时间+缓存时间)，如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expires: Thu, <span class="number">10</span> Nov <span class="number">2017</span> <span class="number">08</span>:<span class="number">45</span>:<span class="number">11</span> GMT</span><br></pre></td></tr></table></figure>
+
+<p>如果客户端的时间小于Expires的值时，直接使用缓存结果，不需要再次请求。</p>
+<p>缺点：</p>
+<ol>
+<li>受限于本地时间，如果修改了本地时间，可能会造成缓存失效。</li>
+<li>Expires是HTTP/1.0的字段，但是现在浏览器默认使用的是HTTP/1.1。</li>
+</ol>
+<h5 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h5><p>已知Expires的缺点之后，在HTTP/1.1中，增加了一个字段Cache-control，该字段表示资源缓存的最大有效时间（相对值），在该时间内，客户端不需要向服务器发送请求。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>public</td>
+<td>所有的内容都可以被缓存 (包括客户端和代理服务器， 如 CDN)</td>
+</tr>
+<tr>
+<td>private</td>
+<td>所有的内容只有客户端才可以缓存，代理服务器不能缓存。默认值。</td>
+</tr>
+<tr>
+<td>max-age</td>
+<td>最大有效时间（max-age=30表示缓存30秒后就过期。）</td>
+</tr>
+<tr>
+<td>s-maxage</td>
+<td>覆盖max-age，作用一样，只在代理服务器中生效。</td>
+</tr>
+<tr>
+<td>must-revalidate</td>
+<td>如果超过了 max-age 的时间，浏览器必须向服务器发送请求，验证资源是否还有效。</td>
+</tr>
+<tr>
+<td>no-store</td>
+<td>所有内容都不走缓存，包括强制和协商缓存。</td>
+</tr>
+<tr>
+<td>no-cache</td>
+<td>资源被缓存，但是立即失效，下次会发起请求验证资源是否过期<br>既要求客户端缓存内容的，只是是否使用这个内容由后续的对比来决定。</td>
+</tr>
+<tr>
+<td>max-stale=30</td>
+<td>30秒内，即使缓存过期吗，也使用该缓存。</td>
+</tr>
+<tr>
+<td>min-fresh=30</td>
+<td>希望在30秒内获取最新的响应。</td>
+</tr>
+</tbody></table>
+<p><strong>PS：这些值可以混合使用，例如 <code>Cache-control:public, max-age=2592000</code></strong></p>
+<h5 id="Expires和Cache-Control对比"><a href="#Expires和Cache-Control对比" class="headerlink" title="Expires和Cache-Control对比"></a>Expires和Cache-Control对比</h5><p>Expires 是http1.0的产物，Cache-Control是http1.1的产物，两者同时存在的话，<strong>Cache-Control优先级高于Expires</strong></p>
+<h4 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h4><p>协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程；协商缓存的情况主要有二种</p>
+<ul>
+<li>协商缓存生效，返回304和Not Modified。</li>
+<li>协商缓存失效，返回200和请求结果。</li>
+</ul>
+<p>协商缓存可以通过设置两种 HTTP Header 实现：<strong>Last-Modified 和 ETag</strong> 。</p>
+<h5 id="Last-Modified-amp-If-Modified-Since"><a href="#Last-Modified-amp-If-Modified-Since" class="headerlink" title="Last-Modified &amp; If-Modified-Since"></a>Last-Modified &amp; If-Modified-Since</h5><p>过程：</p>
+<p>1.服务器通过 Last-Modified 字段告知客户端，资源最后一次被修改的时间，例如<code>Last-Modified: Mon, 10 Nov 2018 09:10:11 GMT</code><br>2.浏览器将这个值和内容一起记录在缓存数据库中。<br>3.下一次请求相同资源时，会在请求头中将上次的<code>Last-Modified</code>的值写入到请求头的<code>If-Modified-Since</code>字段。<br>4.服务器会将<code>If-Modified-Since</code>的值与<code>Last-Modified</code>字段进行对比。<strong>如果相等，则表示未修改，响应304；反之，则表示修改了，响应 200 状态码，并返回数据。</strong></p>
+<p>缺陷：</p>
+<ul>
+<li>如果资源更新的速度是秒以下单位，那么该缓存是不能被使用的，因为它的时间单位最低是秒。</li>
+<li>如果文件是通过服务器动态生成的，那么该方法的更新时间永远是生成的时间，尽管文件可能没有变化，所以起不到缓存的作用。</li>
+<li>如果本地打开缓存文件，即使没有对文件进行修改，但 Last-Modified 却改变了，导致文件没法使用缓存</li>
+</ul>
+<h5 id="Etag-amp-If-None-Match"><a href="#Etag-amp-If-None-Match" class="headerlink" title="Etag &amp; If-None-Match"></a>Etag &amp; If-None-Match</h5><p><strong>Etag是服务器端在响应请求时用来说明资源在服务器端的唯一标识</strong>。与之对应的是 If-None-Match字段，在协商缓存过程中，浏览器发送的 HTTP 请求中 Header 中会带上 If-None-Match 字段，值为该缓存资源 Etag 属性的值。</p>
+<p>当服务器端接收到带有 If-None-Match 的请求时，则会将 If-None-Match 的值与被请求资源的唯一标识做对比。如果相同，说明资源没有新的修改，则响应 HTTP Status Code 304，浏览器会继续使用缓存资源；如果不同，则说明资源被修改过，则响应 HTTP Status Code 200，并返回最新的资源。</p>
+<h4 id="缓存机制总结"><a href="#缓存机制总结" class="headerlink" title="缓存机制总结"></a>缓存机制总结</h4><p>下面用一张流程图来完整说明当浏览器发起 HTTP 请求时缓存机制的过程：</p>
+<p><img src="/assets/images/browser-cache/1.jpeg" alt="image"></p>
+<h2 id="实际场景应用缓存策略"><a href="#实际场景应用缓存策略" class="headerlink" title="实际场景应用缓存策略"></a>实际场景应用缓存策略</h2><h3 id="频繁变动的资源"><a href="#频繁变动的资源" class="headerlink" title="频繁变动的资源"></a>频繁变动的资源</h3><blockquote>
+<p>Cache-Control: no-cache</p>
+</blockquote>
+<p>对于频繁变动的资源，首先需要使用<code>Cache-Control: no-cache</code> 使浏览器每次都请求服务器，然后配合 ETag 或者 Last-Modified 来验证资源是否有效。这样的做法虽然不能节省请求数量，但是能显著减少响应数据大小。</p>
+<h3 id="不常变化的资源"><a href="#不常变化的资源" class="headerlink" title="不常变化的资源"></a>不常变化的资源</h3><blockquote>
+<p>Cache-Control: max-age=31536000</p>
+</blockquote>
+<p>通常在处理这类资源时，给它们的 Cache-Control 配置一个很大的 max-age=31536000 (一年)，这样浏览器之后请求相同的 URL 会命中强制缓存。而为了解决更新的问题，就需要在文件名(或者路径)中添加 hash， 版本号等动态字符，之后更改动态字符，从而达到更改引用 URL 的目的，让之前的强制缓存失效 (其实并未立即失效，只是不再使用了而已)。<br>在线提供的类库 (如 jquery-3.3.1.min.js, lodash.min.js 等) 均采用这个模式。</p>
+<h2 id="用户行为对浏览器缓存的影响"><a href="#用户行为对浏览器缓存的影响" class="headerlink" title="用户行为对浏览器缓存的影响"></a>用户行为对浏览器缓存的影响</h2><p>所谓用户行为对浏览器缓存的影响，指的就是用户在浏览器如何操作时，会触发怎样的缓存策略。主要有 3 种：</p>
+<ul>
+<li>打开网页，地址栏输入地址： 查找 disk cache 中是否有匹配。如有则使用；如没有则发送网络请求。</li>
+<li>普通刷新 (F5)：因为 TAB 并没有关闭，因此 memory cache 是可用的，会被优先使用(如果匹配的话)。其次才是 disk cache。</li>
+<li>强制刷新 (Ctrl + F5)：浏览器不使用缓存，因此发送的请求头部均带有 Cache-control: no-cache(为了兼容，还带了 Pragma: no-cache),服务器直接返回 200 和最新内容。</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://www.jianshu.com/p/54cc04190252" target="_blank" rel="noopener">深入理解浏览器的缓存机制</a><br><a href="https://mp.weixin.qq.com/s/d2zeGhUptGUGJpB5xHQbOA" target="_blank" rel="noopener">彻底理解浏览器的缓存机制</a><br><a href="https://juejin.im/post/5c749f6851882562934ca96e" target="_blank" rel="noopener">浏览器缓存机制</a><br><a href="https://juejin.im/post/5c22ee806fb9a049fb43b2c5?utm_source=gold_browser_extension" target="_blank" rel="noopener">一文读懂前端缓存</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">性能</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTML</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">浏览器</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/js-throttle-debounce/" class="archive-article-date">
-  	<time datetime="2019-07-05T08:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-05</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/js-monitoring/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">前端监控、埋点技术方案</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/js-throttle-debounce/">JavaScript 函数节流和函数去抖</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">性能</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存过程分析"><span class="toc-number">1.</span> <span class="toc-text">缓存过程分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器缓存机制"><span class="toc-number">2.</span> <span class="toc-text">浏览器缓存机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存位置"><span class="toc-number">2.1.</span> <span class="toc-text">缓存位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Service-Worker"><span class="toc-number">2.2.</span> <span class="toc-text">Service Worker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Memory-Cache"><span class="toc-number">2.3.</span> <span class="toc-text">Memory Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Disk-Cache"><span class="toc-number">2.4.</span> <span class="toc-text">Disk Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Push-Cache"><span class="toc-number">2.5.</span> <span class="toc-text">Push Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存策略"><span class="toc-number">2.6.</span> <span class="toc-text">缓存策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#强制缓存"><span class="toc-number">2.6.1.</span> <span class="toc-text">强制缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Expires"><span class="toc-number">2.6.1.1.</span> <span class="toc-text">Expires</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Cache-Control"><span class="toc-number">2.6.1.2.</span> <span class="toc-text">Cache-Control</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Expires和Cache-Control对比"><span class="toc-number">2.6.1.3.</span> <span class="toc-text">Expires和Cache-Control对比</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#协商缓存"><span class="toc-number">2.6.2.</span> <span class="toc-text">协商缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Last-Modified-amp-If-Modified-Since"><span class="toc-number">2.6.2.1.</span> <span class="toc-text">Last-Modified &amp; If-Modified-Since</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Etag-amp-If-None-Match"><span class="toc-number">2.6.2.2.</span> <span class="toc-text">Etag &amp; If-None-Match</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缓存机制总结"><span class="toc-number">2.6.3.</span> <span class="toc-text">缓存机制总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实际场景应用缓存策略"><span class="toc-number">3.</span> <span class="toc-text">实际场景应用缓存策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#频繁变动的资源"><span class="toc-number">3.1.</span> <span class="toc-text">频繁变动的资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不常变化的资源"><span class="toc-number">3.2.</span> <span class="toc-text">不常变化的资源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户行为对浏览器缓存的影响"><span class="toc-number">4.</span> <span class="toc-text">用户行为对浏览器缓存的影响</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">5.</span> <span class="toc-text">参考文献</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -272,9 +430,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
