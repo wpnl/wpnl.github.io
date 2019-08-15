@@ -694,4 +694,35 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 </div>
   </div>
 </body>
+<script type="text/javascript">
+  window.onload = function () {
+    var body = document.getElementsByTagName('body')[0]
+    var index = 0;
+    var array = ["富强","民主","文明","和谐","自由","平等","公正","法治","爱国","敬业","诚信","友善"];
+    body.onclick = function (e) {
+      var t = e.pageX;
+      var n = e.pageY;
+      var span = document.createElement('span')
+      span.style.top = n - 20 + 'px';
+      span.style.left = t + 'px';
+      span.style.position = 'absolute';
+      span.style.fontWeight = 'bold';
+      span.style.color = '#ff6651';
+      span.style.transition = 'all 2000ms';
+      span.innerText = array[index]
+      body.appendChild(span)
+      index = (index + 1) % array.length;
+
+      setTimeout(() => {
+        span.style.transform = 'translate3d(0,-180px,0)'
+        span.style.opacity = 0;
+        // body.removeChild(span)
+        setTimeout(() => {
+          body.removeChild(span)
+        }, 2000);
+      }, 0);
+
+    }
+  }
+</script>
 </html>
