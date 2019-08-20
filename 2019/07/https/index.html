@@ -17,7 +17,7 @@
 <meta property="og:description" content="在HTTP协议中可能存在信息窃听或身份伪装等安全问题，使用HTTPS通信机制可以有效地防止这些问题。这篇文章会先从HTTP的缺点开始讲述，从而引申出HTTPS的功能以及重要性。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/assets/images/https-encrypt.jpg">
-<meta property="og:updated_time" content="2019-08-07T12:02:52.121Z">
+<meta property="og:updated_time" content="2019-08-20T08:26:46.071Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS原理理解">
 <meta name="twitter:description" content="在HTTP协议中可能存在信息窃听或身份伪装等安全问题，使用HTTPS通信机制可以有效地防止这些问题。这篇文章会先从HTTP的缺点开始讲述，从而引申出HTTPS的功能以及重要性。">
@@ -170,7 +170,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-keyboard-o"></i>
       <span class="post-meta-item-text">  字数统计: </span>
-      <span class="post-count">1.8k字</span>
+      <span class="post-count">2k字</span>
     </span>
   </span>
 
@@ -250,6 +250,14 @@
 <li>服务器同样发送<strong>Change Cipher Spec</strong>报文。</li>
 <li>服务器同样发送<strong>Finished</strong>报文。</li>
 <li>服务器和客户端的Finished报文交换完毕之后，SSL链接就算建立完成。当然，通信会受到SSL的保护。从此处开始进行应用层协议的通信，发送HTTP请求。</li>
+</ol>
+<p>通俗理解：</p>
+<ol>
+<li>客户端使用https的url访问web服务器,要求与服务器建立ssl连接</li>
+<li>web服务器收到客户端请求后, 会将网站的证书(包含公钥)传送一份给客户端</li>
+<li>客户端收到网站证书后会检查证书的颁发机构以及过期时间, 如果没有问题就随机产生一个秘钥</li>
+<li>客户端利用公钥将会话秘钥加密, 并传送给服务端, 服务端利用自己的私钥解密出会话秘钥</li>
+<li>之后服务器与客户端使用秘钥加密传输</li>
 </ol>
 <p>总结：相比HTTP协议，HTTPS 协议增加了很多握手、加密解密等流程，虽然过程很复杂，但其可以保证数据传输的安全。为了保证数据的安全，很有必要使用HTTPS。</p>
 <hr>
