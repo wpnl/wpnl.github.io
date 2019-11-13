@@ -17,7 +17,7 @@
 <meta property="og:description" content="浏览器的缓存机制也就是我们说的HTTP缓存机制，其机制是根据HTTP报文的缓存标识进行的。简单的理解就是把一个已经请求过的资源拷贝一份存储起来，当下次需要该资源时，浏览器会根据缓存机制决定直接使用缓存资源还是再次向服务器发送请求。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/assets/images/browser-cache/1.jpeg">
-<meta property="og:updated_time" content="2019-08-14T03:52:28.446Z">
+<meta property="og:updated_time" content="2019-11-13T02:05:18.221Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解浏览器缓存机制">
 <meta name="twitter:description" content="浏览器的缓存机制也就是我们说的HTTP缓存机制，其机制是根据HTTP报文的缓存标识进行的。简单的理解就是把一个已经请求过的资源拷贝一份存储起来，当下次需要该资源时，浏览器会根据缓存机制决定直接使用缓存资源还是再次向服务器发送请求。">
@@ -231,7 +231,7 @@
 <li>你可以给其他域名推送资源。</li>
 </ul>
 <p>如果以上四种缓存都没有命中的话，那么只能发起请求来获取资源了。</p>
-<h3 id="缓存策略"><a href="#缓存策略" class="headerlink" title="缓存策略"></a>缓存策略</h3><p>浏览器每次在向服务器发起 HTTP 请求获得资源后，可能会根据不同情况（可能是代码控制如 Service Worker、Push Cache，也可能是根据 HTTP Header 的缓存标识字段）将资源缓存起来。<br>浏览器缓存策略分为强制缓存和协商缓存，其是通过设置 HTTP Header 来实现的。</p>
+<h3 id="缓存策略"><a href="#缓存策略" class="headerlink" title="缓存策略"></a>缓存策略</h3><p>浏览器每次在向服务器发起 HTTP 请求获得资源后，可能会根据不同情况（可能是代码控制如 Service Worker、Push Cache，也可能是根据 HTTP Header 的缓存标识字段）将资源缓存起来。<br>浏览器缓存策略分为强制缓存和协商缓存，是通过设置 HTTP Header 来实现的。</p>
 <h4 id="强制缓存"><a href="#强制缓存" class="headerlink" title="强制缓存"></a>强制缓存</h4><p>强制缓存就是向浏览器缓存查找该请求结果，并根据该结果的缓存规则来决定是否使用该缓存结果的过程。强缓存可以通过设置两种 HTTP Header 实现：<strong>Expires 和 Cache-Control</strong>；强制缓存的情况主要有三种</p>
 <ul>
 <li>不存在该缓存结果和缓存标识，强制缓存失效，则直接向服务器发起请求。</li>
