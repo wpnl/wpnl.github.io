@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="烫烫烫的锟斤拷哒~">
 <meta property="og:description" content="一个页面的加载速度，与网络、浏览器渲染过程两个方面相关，下面分别从两个方向去讨论如何提升页面加载速度。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-20T01:29:23.473Z">
+<meta property="og:updated_time" content="2020-01-13T01:46:16.805Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="页面性能优化">
 <meta name="twitter:description" content="一个页面的加载速度，与网络、浏览器渲染过程两个方面相关，下面分别从两个方向去讨论如何提升页面加载速度。">
@@ -177,7 +177,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-hourglass-half"></i>
       <span class="post-meta-item-text">  阅读时长: </span>
-      <span class="post-count">7分</span>
+      <span class="post-count">8分</span>
     </span>
   </span>
 </div>
@@ -251,7 +251,7 @@
 <li>如果有多个设置了defer的script标签存在，则会<strong>按照顺序执行</strong>所有的script。</li>
 <li>defer脚本会在文档渲染完毕后，DOMContentLoaded事件调用前执行。</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"2.js"</span> defer &gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"1.js"</span> defer &gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.js</span></span><br><span class="line"><span class="comment">// 1.js</span></span><br><span class="line"><span class="comment">// DOMContentLoaded</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"2.js"</span> defer &gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"1.js"</span> defer &gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.js</span></span><br><span class="line"><span class="comment">// 1.js</span></span><br><span class="line"><span class="comment">// DOMContentLoaded</span></span><br></pre></td></tr></table></figure>
 
 <p>就算1.js加载用时比2.js短，但因为defer的限制，所以1.js只能等前边的脚本执行完毕后才能执行</p>
 <p><strong>async</strong></p>
@@ -259,7 +259,7 @@
 <li>async的设置，会使得script脚本异步的加载并在允许的情况下执行。</li>
 <li>async的执行，并不会按着script在页面中的顺序来执行，而是谁先加载完谁执行。</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"2.js"</span> <span class="keyword">async</span> &gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"1.js"</span> <span class="keyword">async</span> &gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// DOMContentLoaded</span></span><br><span class="line"><span class="comment">// 1.js</span></span><br><span class="line"><span class="comment">// 2.js</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"2.js"</span> <span class="keyword">async</span> &gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"1.js"</span> <span class="keyword">async</span> &gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// DOMContentLoaded</span></span><br><span class="line"><span class="comment">// 1.js</span></span><br><span class="line"><span class="comment">// 2.js</span></span><br></pre></td></tr></table></figure>
 
 <p>注意：<strong>DOMContentLoaded</strong>事件的触发并不受async脚本加载的影响，在脚本加载完之前，就已经触发了<strong>DOMContentLoaded</strong></p>
 <p>async的执行是加载完成就会去执行，而不像defer那样要等待所有的脚本加载完后按照顺序执行。</p>
@@ -271,7 +271,10 @@
 <h3 id="使用CDN加速"><a href="#使用CDN加速" class="headerlink" title="使用CDN加速"></a>使用CDN加速</h3><p>通过将静态资源(例如javascript，css，图片等等）缓存到离用户很近的相同网络运营商的CDN节点上，不但能提升用户的访问速度，还能节省服务器的带宽消耗，降低负载。</p>
 <h3 id="预解析DNS"><a href="#预解析DNS" class="headerlink" title="预解析DNS"></a>预解析DNS</h3><p>资源预加载是另一个性能优化技术，我们可以使用该技术来预先告知浏览器某些资源可能在将来会被使用到。</p>
 <p>例如，我们将来可从 baidu.com 获取图片或音频资源，那么可以在文档顶部的 标签中加入以下内容。</p>
-<p><code>&lt;link rel=&quot;dns-prefetch&quot; href=&quot;//baidu.com&quot;&gt;</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"x-dns-prefetch-control"</span> <span class="attr">content</span>=<span class="string">"on"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"dns-prefetch"</span> <span class="attr">href</span>=<span class="string">"//baidu.com"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="利用浏览器缓存"><a href="#利用浏览器缓存" class="headerlink" title="利用浏览器缓存"></a>利用浏览器缓存</h3><ol>
 <li>强缓存：不会向服务器发送请求，直接从缓存中读取资源，在chrome控制台的network选项中可以看到该请求返回200的状态码，并且size显示from disk cache或from memory cache；</li>
 <li>协商缓存：向服务器发送请求，服务器会根据这个请求的request header的一些参数来判断是否命中协商缓存，如果命中，则返回304状态码并带上新的response header通知浏览器从缓存中读取资源；另外协商缓存需要与cache-control共同使用。</li>
