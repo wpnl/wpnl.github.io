@@ -17,7 +17,7 @@
 <meta property="og:description" content="其实这种问题网络上有很多，但是每篇文章各有千秋，而我写这篇文章，也是想仔细缕一缕这个过程，让自己更深刻的理解。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/assets/images/url-three-handshake.jpg">
-<meta property="og:updated_time" content="2019-12-20T01:23:26.824Z">
+<meta property="og:updated_time" content="2020-01-13T07:44:08.175Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从输入URL到页面加载完成的过程">
 <meta name="twitter:description" content="其实这种问题网络上有很多，但是每篇文章各有千秋，而我写这篇文章，也是想仔细缕一缕这个过程，让自己更深刻的理解。">
@@ -170,7 +170,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-keyboard-o"></i>
       <span class="post-meta-item-text">  字数统计: </span>
-      <span class="post-count">1.5k字</span>
+      <span class="post-count">1.6k字</span>
     </span>
   </span>
 
@@ -213,6 +213,9 @@
 <li>客户端与服务器建立<strong>TCP</strong> 连接（三次握手🤝）。</li>
 <li>浏览器向服务器发送HTTP请求。</li>
 <li>浏览器拿到服务端响应内容，解码、渲染。</li>
+<li>解析html为DOM Tree，解析css为CSS Tree。</li>
+<li>DOM + CSS生成render-tree绘图。</li>
+<li>加载script的js文件，执行js。</li>
 <li>通讯完成关闭<strong>TCP</strong>连接（四次挥手👋）</li>
 </ol>
 <p><strong>每个过程中间还会发生很多事情，下面单独分析每个过程发生的细节</strong></p>
