@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 烫烫烫的锟斤拷哒~</title>
+  <title>实现一个mini的vue | 烫烫烫的锟斤拷哒~</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="我写过最美的诗，是你的名字">
-<meta name="keywords" content="咸鱼,美食,做饭,周杰伦粉丝,卖萌,前端,心理学,js,vue,react,javascript,html5,开发者,程序猿,编程,代码,html,css,css3,用户体验">
-<meta property="og:type" content="website">
-<meta property="og:title" content="烫烫烫的锟斤拷哒~">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="description" content="最近在学习vue源码，不断的反复阅读，终于明白vue的核心，是如何收集依赖，触发更新的。下面根据vue的思想，自己实现一个mini版的vue，巩固知识。">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现一个mini的vue">
+<meta property="og:url" content="http://yoursite.com/2020/01/vue-mvvm/index.html">
 <meta property="og:site_name" content="烫烫烫的锟斤拷哒~">
-<meta property="og:description" content="我写过最美的诗，是你的名字">
+<meta property="og:description" content="最近在学习vue源码，不断的反复阅读，终于明白vue的核心，是如何收集依赖，触发更新的。下面根据vue的思想，自己实现一个mini版的vue，巩固知识。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/assets/images/vue.png">
+<meta property="og:updated_time" content="2020-01-31T12:40:31.600Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="烫烫烫的锟斤拷哒~">
-<meta name="twitter:description" content="我写过最美的诗，是你的名字">
+<meta name="twitter:title" content="实现一个mini的vue">
+<meta name="twitter:description" content="最近在学习vue源码，不断的反复阅读，终于明白vue的核心，是如何收集依赖，触发更新的。下面根据vue的思想，自己实现一个mini版的vue，巩固知识。">
+<meta name="twitter:image" content="http://yoursite.com/assets/images/vue.png">
   
     <link rel="alternative" href="/atom.xml" title="烫烫烫的锟斤拷哒~" type="application/atom+xml">
   
@@ -150,220 +153,114 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-vue-mvvm" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      实现一个mini的vue
+    </h1>
+  
+
+        
+        <div style="margin-left:10px; font-size: 12px; color: #999; display: inline-block;">
+  <span class="post-time">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-keyboard-o"></i>
+      <span class="post-meta-item-text">  字数统计: </span>
+      <span class="post-count">3k字</span>
+    </span>
+  </span>
+
+  <span class="post-time">
+    &nbsp; | &nbsp;
+    <span class="post-meta-item-icon">
+      <i class="fa fa-hourglass-half"></i>
+      <span class="post-meta-item-text">  阅读时长: </span>
+      <span class="post-count">14分</span>
+    </span>
+  </span>
+</div>
+        
+        
+        <a href="/2020/01/vue-mvvm/" class="archive-article-date">
+  	<time datetime="2020-01-22T12:56:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-22</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在学习vue源码，不断的反复阅读，终于明白vue的核心，是如何收集依赖，触发更新的。下面根据vue的思想，自己实现一个mini版的vue，巩固知识。</p>
+<a id="more"></a>
+
+
+<p>我们常说：vue.js 是采用数据劫持结合发布者-订阅者模式的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。</p>
+<p>那么到底如何实现，我们先看看vue的核心流程，如图：</p>
+<p><img src="/assets/images/vue.png" alt></p>
+<p>简单总结</p>
+<ul>
+<li>Object.defineProperty劫持data的属性。</li>
+<li>vue编译模板生成render函数，render函数获取data.xx，触发get，把render watcher收集到依赖里。</li>
+<li>当我们set修改数据时，就会通知依赖去更新。</li>
+</ul>
+<h1 id="核心分析"><a href="#核心分析" class="headerlink" title="核心分析"></a>核心分析</h1><p>首先我们要知道双向绑定的几个核心东西</p>
+<ul>
+<li>Observe</li>
+<li>Dep</li>
+<li>Compile</li>
+<li>Watcher</li>
+</ul>
+<p>Observe用来把data变成响应式</p>
+<p>Dep是依赖管理器，每一个data属性都有一个dep来管理他们的依赖</p>
+<p>Watcher本质上就是我们所说的依赖。</p>
+<p>Compile函数用来编译模板，触发依赖收集</p>
+<p>假设我们有下面这样的数据</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">my-text</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"changeName"</span>&gt;</span>点我我就变给你看<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">my-html</span>=<span class="string">"html"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line">  	const myVue = new MyVue(&#123;</span><br><span class="line">      el: 'app',</span><br><span class="line">      data: &#123;</span><br><span class="line">        name: "我是一个mini的vue",</span><br><span class="line"><span class="xml">        html: '<span class="tag">&lt;<span class="name">h2</span>&gt;</span>这是一个加粗的h2标签<span class="tag">&lt;/<span class="name">h2</span>&gt;</span>'</span></span><br><span class="line">      &#125;,</span><br><span class="line">      methods: &#123;</span><br><span class="line">        changeName() &#123;</span><br><span class="line">          this.name = '你看我变了吧'</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来我们一步一步来实现吧~</p>
+<h2 id="实现MyVue"><a href="#实现MyVue" class="headerlink" title="实现MyVue"></a>实现MyVue</h2><ul>
+<li>首先我们要编写一个MyVue构造函数，有以下功能：<ol>
+<li>实现Observe把data变成响应式的，</li>
+<li>实现proxyData函数把this.xx代理到this.data.xx</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MyVue.js</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyVue</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(options) &#123;</span><br><span class="line">    <span class="keyword">this</span>.$options = options</span><br><span class="line">    <span class="keyword">this</span>.$data = options.data</span><br><span class="line">    <span class="comment">// 响应化处理</span></span><br><span class="line">    <span class="keyword">this</span>.observe(<span class="keyword">this</span>.$data)</span><br><span class="line">  &#125;</span><br><span class="line">  observe(value) &#123;</span><br><span class="line">    <span class="comment">// 因为要递归调用，如果不是对象会返回</span></span><br><span class="line">    <span class="keyword">if</span> (!value || <span class="keyword">typeof</span> value !== <span class="string">'object'</span>) <span class="keyword">return</span></span><br><span class="line">    <span class="built_in">Object</span>.keys(value).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.defineReactive(value, key, value[key])</span><br><span class="line">      <span class="comment">// 把this.xx代理到this.data.xx</span></span><br><span class="line">      <span class="keyword">this</span>.proxyData(key)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 劫持对象</span></span><br><span class="line">  defineReactive(obj, key, val) &#123;</span><br><span class="line">    <span class="comment">// 每一个属性都有一个dep，用作管理依赖</span></span><br><span class="line">    <span class="keyword">const</span> dep = <span class="keyword">new</span> Dep()</span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</span><br><span class="line">      <span class="keyword">get</span>() &#123;</span><br><span class="line">        <span class="comment">// 收集依赖</span></span><br><span class="line">        Dep.target &amp;&amp; dep.addDep(Dep.target)</span><br><span class="line">        <span class="keyword">return</span> val</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="keyword">set</span>(newVal) &#123;</span><br><span class="line">        <span class="keyword">if</span> (newVal !== val) &#123;</span><br><span class="line">          val = newVal</span><br><span class="line">          dep.notify()</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 递归收集依赖</span></span><br><span class="line">    <span class="keyword">this</span>.observe(val)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 数据代理</span></span><br><span class="line">  proxyData(key) &#123;</span><br><span class="line">    <span class="comment">// 当获取this.xx，则返回this.$data.xx</span></span><br><span class="line">    <span class="comment">// 当修改this.xx，则修改this.$data.xx</span></span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(<span class="keyword">this</span>, key, &#123;</span><br><span class="line">      <span class="keyword">get</span>()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.$data[key]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="keyword">set</span>(newVal)&#123;</span><br><span class="line">        <span class="keyword">this</span>.$data[key] = newVal</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码不难理解，关键是收集依赖这一步，这时候我们要实现一个Dep</p>
+<h2 id="实现Dep"><a href="#实现Dep" class="headerlink" title="实现Dep"></a>实现Dep</h2><p>Dep依赖管理器很简单，从上面可以看出它只有addDep添加依赖和notify通知依赖更新两个方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Dep</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>()&#123;</span><br><span class="line">    <span class="comment">// 一个属性可以有多个依赖</span></span><br><span class="line">    <span class="keyword">this</span>.deps = []</span><br><span class="line">  &#125;</span><br><span class="line">  addDep(dep) &#123;</span><br><span class="line">    <span class="keyword">this</span>.deps.push(dep)</span><br><span class="line">  &#125;</span><br><span class="line">  notify() &#123;</span><br><span class="line">    <span class="keyword">this</span>.deps.forEach(<span class="function"><span class="params">dep</span> =&gt;</span> dep.update())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这个不理解可以先不用管</span></span><br><span class="line">Dep.target = <span class="literal">null</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="实现Watcher"><a href="#实现Watcher" class="headerlink" title="实现Watcher"></a>实现Watcher</h2><p>接下来我们来实现Watcher</p>
+<p>Watcher（订阅者）本质上就是依赖，在上面的例子里，依赖就是模板中的那些标签。也就是说<code>&lt;p&gt;&lt;/p&gt;</code>这个标签可以理解为是name属性的依赖，当我们去修改name时，去通知这个依赖重新渲染。</p>
+<p>现在回到应该如何触发收集依赖，在上面的例子里，我们收集依赖是在get里实现，所有我们Watcher要主动去获取这个属性，这样依赖就被收集了</p>
+<p>Watcher本质上就是依赖，在上面的例子里，依赖就是模板中的那些标签。也就是说，<code>&lt;p&gt;&lt;/p&gt;</code>这个标签可以理解为是name属性的依赖，当我们去修改name时，我们要通知这个依赖重新渲染。</p>
+<p>在收集依赖的过程，要触发get方法，所以我们可以知道，在Watcher里，要有一个key属性，去主动触发get收集。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Watcher</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Watcher</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(vm, key, cb) &#123;</span><br><span class="line">    <span class="keyword">this</span>.vm = vm</span><br><span class="line">    <span class="keyword">this</span>.key = key</span><br><span class="line">    <span class="keyword">this</span>.cb = cb</span><br><span class="line"></span><br><span class="line">    Dep.target = <span class="keyword">this</span></span><br><span class="line">    <span class="comment">// 添加watcher到dep</span></span><br><span class="line">    <span class="keyword">this</span>.vm[<span class="keyword">this</span>.key]</span><br><span class="line">    Dep.target = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  update() &#123;</span><br><span class="line">    <span class="comment">// 触发更新，重新渲染</span></span><br><span class="line">    <span class="keyword">this</span>.cb.call(<span class="keyword">this</span>.vm, <span class="keyword">this</span>.vm[<span class="keyword">this</span>.key])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面就是Watcher函数的实现，现在再捋一遍代码。首先触发依赖收集是在编译里，编译的过程中，匹配到含有<strong>双括号、my-text</strong>、的这些标签，会分配给它们一个Watcher，这时就会触发Watcher的constructor方法，会先执行Dep.target = this把当前的Watcher赋值给Dep.target，再执行this.vm[this.key]主动触发key的get属性，收集依赖，最后再把Dep.target置为空，这样就把依赖收集了。由于js是单线程的，同一时间只有一个依赖会被收集，所以采用全局的Dep.target方法去实现是没有问题的。</p>
+<h2 id="实现Compile"><a href="#实现Compile" class="headerlink" title="实现Compile"></a>实现Compile</h2><p>其实Compile才是最关键的一步，它的作用就是把模板编译，收集依赖的过程。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Compile</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Compile</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(el, vm) &#123;</span><br><span class="line">    <span class="keyword">this</span>.$vm = vm</span><br><span class="line">    <span class="keyword">this</span>.$el = <span class="built_in">document</span>.getElementById(el)</span><br><span class="line">    <span class="keyword">this</span>.$fragment = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.$el) &#123;</span><br><span class="line">      <span class="comment">// 提取模板内容到Fragment标签，离线操作dom</span></span><br><span class="line">      <span class="keyword">this</span>.$fragment = node2Fragment(<span class="keyword">this</span>.$el)</span><br><span class="line">      <span class="comment">// 编译模板内容，依赖收集</span></span><br><span class="line">      <span class="keyword">this</span>.compile(<span class="keyword">this</span>.$fragment)</span><br><span class="line">      <span class="comment">// 编译完成最后挂在即可</span></span><br><span class="line">      <span class="keyword">this</span>.$el.appendChild(<span class="keyword">this</span>.$fragment)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 编译</span></span><br><span class="line">  compile(el) &#123;</span><br><span class="line">    <span class="keyword">const</span> childNodes = el.childNodes;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Array</span>.from(childNodes).forEach(<span class="function"><span class="params">node</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 判断节点类型</span></span><br><span class="line">      <span class="keyword">if</span> (node.nodeType === <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// 编译元素节点</span></span><br><span class="line">        <span class="keyword">this</span>.compileElement(node)</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.isInterpolation(node)) &#123; <span class="comment">// 是插值表达式才进入</span></span><br><span class="line">        <span class="comment">// 编译插值表达式才进入</span></span><br><span class="line">        <span class="keyword">this</span>.compileText(node);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 递归子节点</span></span><br><span class="line">      <span class="keyword">if</span> (node.childNodes &amp;&amp; node.childNodes.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.compile(node);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 编译元素节点</span></span><br><span class="line">  compileElement(node) &#123;</span><br><span class="line">    <span class="comment">// &lt;div my-text="text" @click="onClick"&gt;</span></span><br><span class="line">    <span class="keyword">let</span> nodeAttrs = node.attributes</span><br><span class="line">    <span class="built_in">Array</span>.from(nodeAttrs).forEach(<span class="function"><span class="params">attr</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> attrName = attr.name</span><br><span class="line">      <span class="comment">// 这个exp就是绑定的值</span></span><br><span class="line">      <span class="keyword">const</span> exp = attr.value</span><br><span class="line">      <span class="keyword">if</span> (isDirective(attrName)) &#123; <span class="comment">// 是指令my-开头</span></span><br><span class="line">        <span class="comment">// dir是指令的名称，比如 text html</span></span><br><span class="line">        <span class="keyword">const</span> dir = attrName.substring(<span class="number">3</span>)</span><br><span class="line">        <span class="comment">// 调用this.text或者this.html等方法</span></span><br><span class="line">        <span class="keyword">this</span>[dir] &amp;&amp; <span class="keyword">this</span>[dir](node, <span class="keyword">this</span>.$vm, exp)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (isEvent(attrName)) &#123; <span class="comment">// 是事件@开头</span></span><br><span class="line">        <span class="comment">// dir是事件的名称，比如click</span></span><br><span class="line">        <span class="keyword">const</span> dir = attrName.substring(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">this</span>.eventHandler(node, <span class="keyword">this</span>.$vm, exp, dir)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isDirective</span>(<span class="params">attr</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> attr.indexOf(<span class="string">"my-"</span>) === <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isEvent</span>(<span class="params">attr</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> attr.indexOf(<span class="string">"@"</span>) === <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 编译文本节点</span></span><br><span class="line">  compileText(node) &#123;</span><br><span class="line">    <span class="comment">// 添加Watcher，收集依赖，触发更新</span></span><br><span class="line">    <span class="keyword">this</span>.update(node, <span class="keyword">this</span>.$vm, <span class="built_in">RegExp</span>.$<span class="number">1</span>, <span class="string">'text'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 渲染text</span></span><br><span class="line">  text(node, vm, exp) &#123;</span><br><span class="line">    <span class="keyword">this</span>.update(node, vm, exp, <span class="string">'text'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 渲染html</span></span><br><span class="line">  html(node, vm, exp) &#123;</span><br><span class="line">    <span class="keyword">this</span>.update(node, vm, exp, <span class="string">'html'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 添加事件</span></span><br><span class="line">  eventHandler(node, vm, exp, dir) &#123;</span><br><span class="line">    <span class="keyword">const</span> fn = vm.$options.methods &amp;&amp; vm.$options.methods[exp];</span><br><span class="line">    <span class="keyword">if</span> (dir &amp;&amp; fn) &#123;</span><br><span class="line">      node.addEventListener(dir, fn.bind(vm));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  update(node, vm, exp, dir) &#123;</span><br><span class="line">    <span class="keyword">let</span> fun = &#123;</span><br><span class="line">      textUpdater,</span><br><span class="line">      htmlUpdater</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> updatrFn = dir + <span class="string">'Updater'</span> </span><br><span class="line">    updatrFn &amp;&amp; fun[updatrFn](node, vm[exp])</span><br><span class="line">    <span class="comment">// 依赖收集</span></span><br><span class="line">    <span class="keyword">new</span> Watcher(vm, exp, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">      updatrFn &amp;&amp; fun[updatrFn](node, value)</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 更新方法</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">textUpdater</span>(<span class="params">node, value</span>) </span>&#123;</span><br><span class="line">      node.textContent = value</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">htmlUpdater</span>(<span class="params">node, value</span>) </span>&#123;</span><br><span class="line">      node.innerHTML = value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @param &#123;*el&#125; dom </span></span><br><span class="line"><span class="comment"> * @returns &#123;*dom&#125; fragment</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">node2Fragment</span>(<span class="params">el</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> fragment = <span class="built_in">document</span>.createDocumentFragment()</span><br><span class="line">  <span class="keyword">let</span> child</span><br><span class="line">  <span class="keyword">while</span> ((child = el.firstChild)) &#123;</span><br><span class="line">    <span class="comment">// appendChild 方法具有可移动性</span></span><br><span class="line">		<span class="comment">// 将el中的节点移动到了fragment当中</span></span><br><span class="line">    fragment.appendChild(child)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> fragment</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @param &#123;*node&#125; dom </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isInterpolation</span>(<span class="params">node</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 是文本且符合&#123;&#123;&#125;&#125;这种形式</span></span><br><span class="line">  <span class="keyword">return</span> node.nodeType === <span class="number">3</span> &amp;&amp; <span class="regexp">/\&#123;\&#123;(.*)\&#125;\&#125;/</span>.test(node.textContent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上就是Compile的实现，其实大部分都是辅助函数，核心逻辑就是递归循环el的所有子节点，判断对应的插值表达式，执行对应的方法即可。update方法主要是更新dom，以及收集依赖。</p>
+<p>最后，我们只要在new MyVue时候初始化<strong>Compile</strong>函数即可。</p>
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">my-text</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"changeName"</span>&gt;</span>点我我就变给你看<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">my-html</span>=<span class="string">"html"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./compile.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./myVue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  	<span class="keyword">const</span> myVue = <span class="keyword">new</span> MyVue(&#123;</span></span><br><span class="line"><span class="javascript">      el: <span class="string">'app'</span>,</span></span><br><span class="line">      data: &#123;</span><br><span class="line"><span class="javascript">        name: <span class="string">"我是一个mini的vue"</span>,</span></span><br><span class="line"><span class="xml">        html: '<span class="tag">&lt;<span class="name">h2</span>&gt;</span>这是一个加粗的h2标签<span class="tag">&lt;/<span class="name">h2</span>&gt;</span>'</span></span><br><span class="line">      &#125;,</span><br><span class="line">      methods: &#123;</span><br><span class="line">        changeName() &#123;</span><br><span class="line"><span class="javascript">          <span class="keyword">this</span>.name = <span class="string">'你看我变了吧'</span></span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Myvue.js</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyVue</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(options) &#123;</span><br><span class="line">    <span class="keyword">this</span>.$options = options</span><br><span class="line">    <span class="keyword">this</span>.$data = options.data</span><br><span class="line">    <span class="comment">// 响应化处理</span></span><br><span class="line">    <span class="keyword">this</span>.observe(<span class="keyword">this</span>.$data)</span><br><span class="line">    <span class="comment">// 编译模板</span></span><br><span class="line">    <span class="keyword">new</span> Compile(options.el, <span class="keyword">this</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  observe(value) &#123;</span><br><span class="line">    <span class="comment">// 因为要递归调用，如果不是对象会返回</span></span><br><span class="line">    <span class="keyword">if</span> (!value || <span class="keyword">typeof</span> value !== <span class="string">'object'</span>) <span class="keyword">return</span></span><br><span class="line">    <span class="built_in">Object</span>.keys(value).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.defineReactive(value, key, value[key])</span><br><span class="line">      <span class="comment">// 把this.xx代理到this.data.xx</span></span><br><span class="line">      <span class="keyword">this</span>.proxyData(key)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 劫持对象</span></span><br><span class="line">  defineReactive(obj, key, val) &#123;</span><br><span class="line">    <span class="comment">// 每一个属性都有一个dep，用作管理依赖</span></span><br><span class="line">    <span class="keyword">const</span> dep = <span class="keyword">new</span> Dep()</span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</span><br><span class="line">      <span class="keyword">get</span>() &#123;</span><br><span class="line">        <span class="comment">// 收集依赖</span></span><br><span class="line">        Dep.target &amp;&amp; dep.addDep(Dep.target)</span><br><span class="line">        <span class="keyword">return</span> val</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="keyword">set</span>(newVal) &#123;</span><br><span class="line">        <span class="keyword">if</span> (newVal !== val) &#123;</span><br><span class="line">          val = newVal</span><br><span class="line">          dep.notify()</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 递归收集依赖</span></span><br><span class="line">    <span class="keyword">this</span>.observe(val)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 数据代理</span></span><br><span class="line">  proxyData(key) &#123;</span><br><span class="line">    <span class="comment">// 当获取this.xx，则返回this.$data.xx</span></span><br><span class="line">    <span class="comment">// 当修改this.xx，则修改this.$data.xx</span></span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(<span class="keyword">this</span>, key, &#123;</span><br><span class="line">      <span class="keyword">get</span>()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.$data[key]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="keyword">set</span>(newVal)&#123;</span><br><span class="line">        <span class="keyword">this</span>.$data[key] = newVal</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Dep</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>()&#123;</span><br><span class="line">    <span class="comment">// 一个属性可以有多个依赖</span></span><br><span class="line">    <span class="keyword">this</span>.deps = []</span><br><span class="line">  &#125;</span><br><span class="line">  addDep(dep) &#123;</span><br><span class="line">    <span class="keyword">this</span>.deps.push(dep)</span><br><span class="line">  &#125;</span><br><span class="line">  notify() &#123;</span><br><span class="line">    <span class="keyword">this</span>.deps.forEach(<span class="function"><span class="params">dep</span> =&gt;</span> dep.update())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">Dep.target = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Watcher</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Watcher</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(vm, key, cb) &#123;</span><br><span class="line">    <span class="keyword">this</span>.vm = vm</span><br><span class="line">    <span class="keyword">this</span>.key = key</span><br><span class="line">    <span class="keyword">this</span>.cb = cb</span><br><span class="line"></span><br><span class="line">    Dep.target = <span class="keyword">this</span></span><br><span class="line">    <span class="comment">// 添加watcher到dep</span></span><br><span class="line">    <span class="keyword">this</span>.vm[<span class="keyword">this</span>.key]</span><br><span class="line">    Dep.target = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  update() &#123;</span><br><span class="line">    <span class="comment">// 触发更新，重新渲染</span></span><br><span class="line">    <span class="keyword">this</span>.cb.call(<span class="keyword">this</span>.vm, <span class="keyword">this</span>.vm[<span class="keyword">this</span>.key])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// compile.js</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Compile</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(el, vm) &#123;</span><br><span class="line">    <span class="keyword">this</span>.$vm = vm</span><br><span class="line">    <span class="keyword">this</span>.$el = <span class="built_in">document</span>.getElementById(el)</span><br><span class="line">    <span class="keyword">this</span>.$fragment = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.$el) &#123;</span><br><span class="line">      <span class="comment">// 提取模板内容到Fragment标签，离线操作dom</span></span><br><span class="line">      <span class="keyword">this</span>.$fragment = node2Fragment(<span class="keyword">this</span>.$el)</span><br><span class="line">      <span class="comment">// 编译模板内容，依赖收集</span></span><br><span class="line">      <span class="keyword">this</span>.compile(<span class="keyword">this</span>.$fragment)</span><br><span class="line">      <span class="comment">// 编译完成最后挂在即可</span></span><br><span class="line">      <span class="keyword">this</span>.$el.appendChild(<span class="keyword">this</span>.$fragment)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 编译</span></span><br><span class="line">  compile(el) &#123;</span><br><span class="line">    <span class="keyword">const</span> childNodes = el.childNodes;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Array</span>.from(childNodes).forEach(<span class="function"><span class="params">node</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 判断节点类型</span></span><br><span class="line">      <span class="keyword">if</span> (node.nodeType === <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// 编译元素节点</span></span><br><span class="line">        <span class="keyword">this</span>.compileElement(node)</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isInterpolation(node)) &#123; <span class="comment">// 是插值表达式才进入</span></span><br><span class="line">        <span class="comment">// 编译插值表达式才进入</span></span><br><span class="line">        <span class="keyword">this</span>.compileText(node);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 递归子节点</span></span><br><span class="line">      <span class="keyword">if</span> (node.childNodes &amp;&amp; node.childNodes.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.compile(node);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 编译元素节点</span></span><br><span class="line">  compileElement(node) &#123;</span><br><span class="line">    <span class="comment">// &lt;div my-text="text" @click="onClick"&gt;</span></span><br><span class="line">    <span class="keyword">let</span> nodeAttrs = node.attributes</span><br><span class="line">    <span class="built_in">Array</span>.from(nodeAttrs).forEach(<span class="function"><span class="params">attr</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> attrName = attr.name</span><br><span class="line">      <span class="comment">// 这个exp就是绑定的值</span></span><br><span class="line">      <span class="keyword">const</span> exp = attr.value</span><br><span class="line">      <span class="keyword">if</span> (isDirective(attrName)) &#123; <span class="comment">// 是指令my-开头</span></span><br><span class="line">        <span class="comment">// dir是指令的名称，比如 text html</span></span><br><span class="line">        <span class="keyword">const</span> dir = attrName.substring(<span class="number">3</span>)</span><br><span class="line">        <span class="comment">// 调用this.text或者this.html等方法</span></span><br><span class="line">        <span class="keyword">this</span>[dir] &amp;&amp; <span class="keyword">this</span>[dir](node, <span class="keyword">this</span>.$vm, exp)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (isEvent(attrName)) &#123; <span class="comment">// 是事件@开头</span></span><br><span class="line">        <span class="comment">// dir是事件的名称，比如click</span></span><br><span class="line">        <span class="keyword">const</span> dir = attrName.substring(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">this</span>.eventHandler(node, <span class="keyword">this</span>.$vm, exp, dir)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isDirective</span>(<span class="params">attr</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> attr.indexOf(<span class="string">"my-"</span>) === <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isEvent</span>(<span class="params">attr</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> attr.indexOf(<span class="string">"@"</span>) === <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 编译文本节点</span></span><br><span class="line">  compileText(node) &#123;</span><br><span class="line">    <span class="comment">// 添加Watcher，收集依赖，触发更新</span></span><br><span class="line">    <span class="keyword">this</span>.update(node, <span class="keyword">this</span>.$vm, <span class="built_in">RegExp</span>.$<span class="number">1</span>, <span class="string">'text'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 渲染text</span></span><br><span class="line">  text(node, vm, exp) &#123;</span><br><span class="line">    <span class="keyword">this</span>.update(node, vm, exp, <span class="string">'text'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 渲染html</span></span><br><span class="line">  html(node, vm, exp) &#123;</span><br><span class="line">    <span class="keyword">this</span>.update(node, vm, exp, <span class="string">'html'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 添加事件</span></span><br><span class="line">  eventHandler(node, vm, exp, dir) &#123;</span><br><span class="line">    <span class="keyword">const</span> fn = vm.$options.methods &amp;&amp; vm.$options.methods[exp];</span><br><span class="line">    <span class="keyword">if</span> (dir &amp;&amp; fn) &#123;</span><br><span class="line">      node.addEventListener(dir, fn.bind(vm));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  update(node, vm, exp, dir) &#123;</span><br><span class="line">    <span class="keyword">let</span> fun = &#123;</span><br><span class="line">      textUpdater,</span><br><span class="line">      htmlUpdater</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> updatrFn = dir + <span class="string">'Updater'</span> </span><br><span class="line">    updatrFn &amp;&amp; fun[updatrFn](node, vm[exp])</span><br><span class="line">    <span class="comment">// 依赖收集</span></span><br><span class="line">    <span class="keyword">new</span> Watcher(vm, exp, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">      updatrFn &amp;&amp; fun[updatrFn](node, value)</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 更新方法</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">textUpdater</span>(<span class="params">node, value</span>) </span>&#123;</span><br><span class="line">      node.textContent = value</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">htmlUpdater</span>(<span class="params">node, value</span>) </span>&#123;</span><br><span class="line">      node.innerHTML = value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @param &#123;*el&#125; dom </span></span><br><span class="line"><span class="comment"> * @returns &#123;*dom&#125; fragment</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">node2Fragment</span>(<span class="params">el</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> fragment = <span class="built_in">document</span>.createDocumentFragment()</span><br><span class="line">  <span class="keyword">let</span> child</span><br><span class="line">  <span class="keyword">while</span> ((child = el.firstChild)) &#123;</span><br><span class="line">    <span class="comment">// appendChild 方法具有可移动性</span></span><br><span class="line">		<span class="comment">// 将el中的节点移动到了fragment当中</span></span><br><span class="line">    fragment.appendChild(child)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> fragment</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @param &#123;*node&#125; dom </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isInterpolation</span>(<span class="params">node</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 是文本且符合&#123;&#123;&#125;&#125;这种形式</span></span><br><span class="line">  <span class="keyword">return</span> node.nodeType === <span class="number">3</span> &amp;&amp; <span class="regexp">/\&#123;\&#123;(.*)\&#125;\&#125;/</span>.test(node.textContent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/interactive-design/" class="archive-article-date">
-  	<time datetime="2018-08-11T08:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/interactive-design/">交互设计原则</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">转载</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">交互</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">UI</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/url-loading-process/" class="archive-article-date">
-  	<time datetime="2018-06-06T12:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/url-loading-process/">从输入URL到页面加载完成的过程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">URL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">TCP/IP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/webSafety/" class="archive-article-date">
-  	<time datetime="2018-05-29T08:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/webSafety/">Web安全基础</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Web</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Web漏洞</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/https/" class="archive-article-date">
-  	<time datetime="2018-04-05T08:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/https/">HTTPS原理理解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Web</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">安全</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">SSL/TLS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">HTTPS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/js-throttle-debounce/" class="archive-article-date">
-  	<time datetime="2018-02-05T08:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/js-throttle-debounce/">JavaScript 函数节流和函数去抖</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -371,238 +268,71 @@
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
         		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">性能</a>
-        		</li>
       		
 		</ul>
 	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
+
       
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/web-url/" class="archive-article-date">
-  	<time datetime="2017-10-29T08:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/web-url/">Web通讯(HTTP协议)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Web</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">URL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/HTML5-storage/" class="archive-article-date">
-  	<time datetime="2017-07-20T11:27:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-20</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/12/js-design-pattern/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">前端设计模式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/HTML5-storage/">HTMl5的sessionStorage和localStorage</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">html5</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#核心分析"><span class="toc-number">1.</span> <span class="toc-text">核心分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#实现MyVue"><span class="toc-number">1.1.</span> <span class="toc-text">实现MyVue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现Dep"><span class="toc-number">1.2.</span> <span class="toc-text">实现Dep</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现Watcher"><span class="toc-number">1.3.</span> <span class="toc-text">实现Watcher</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现Compile"><span class="toc-number">1.4.</span> <span class="toc-text">实现Compile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完整代码"><span class="toc-number">1.5.</span> <span class="toc-text">完整代码</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/for-in-and-for-of/" class="archive-article-date">
-  	<time datetime="2017-07-10T06:26:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-10</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/for-in-and-for-of/">for...in和for...of循环的区别</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">javaScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/viewport-meta/" class="archive-article-date">
-  	<time datetime="2017-06-29T08:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/viewport-meta/">移动meta通用设置</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">meta</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/border1px/" class="archive-article-date">
-  	<time datetime="2017-06-26T10:22:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/border1px/">移动端最小物理像素的实现(border:1px)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">css</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/3/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -626,8 +356,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
