@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="烫烫烫的锟斤拷哒~">
 <meta property="og:description" content="用最基础的代码去实现一些函数，从中更加深刻理解方法的使用。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-14T15:26:44.485Z">
+<meta property="og:updated_time" content="2020-04-18T14:28:49.830Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个中级前端需要掌握的基础函数实现">
 <meta name="twitter:description" content="用最基础的代码去实现一些函数，从中更加深刻理解方法的使用。">
@@ -191,7 +191,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>用最基础的代码去实现一些函数，从中更加深刻理解方法的使用。</p>
+        <p>用最基础的代码去实现一些函数，从中更加深刻理解方法的使用。    </p>
 <a id="more"></a>
 
 <h1 id="实现call、apply、bind函数"><a href="#实现call、apply、bind函数" class="headerlink" title="实现call、apply、bind函数"></a>实现call、apply、bind函数</h1><h2 id="call"><a href="#call" class="headerlink" title="call"></a>call</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myCall = <span class="function"><span class="keyword">function</span> (<span class="params">content = window, ...rest</span>) </span>&#123;</span><br><span class="line">  content.fn = <span class="keyword">this</span></span><br><span class="line">  <span class="keyword">const</span> result = content.fn(...rest)</span><br><span class="line">  <span class="keyword">delete</span> content.fn</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
